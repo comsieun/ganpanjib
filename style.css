@@ -1,0 +1,33 @@
+#mainBody{
+    width: 100%;
+    text-align: center;
+}
+#charaSet{
+    height: 100px;
+    position: relative;
+}
+#mainChara{
+    background-color: aqua;
+    width: 100px;
+    height: 100px;
+    left:40%;
+    bottom:0;
+    position: absolute;
+}
+#arrowSet{
+    position: relative;
+    height: 100px;
+}
+.arrowInstance{
+    bottom:0;
+    width: 100px;
+    height: 100px;
+    background-color: aquamarine;
+    position: absolute;
+}
+#arrowLeft{
+    left:0;
+}
+#arrowRight{
+    right:0;
+}
