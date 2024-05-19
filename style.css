@@ -1,5 +1,6 @@
 #mainBody{
     width: 100%;
+    height: 600px;
     text-align: center;
     position: relative;
 }
@@ -12,7 +13,6 @@
 }
 #charaSet{
     height: 100px;
-    position: relative;
 }
 #mainChara{
     background-color: aqua;
@@ -28,9 +28,9 @@
 }
 .arrowInstance{
     bottom:0;
-    width: 100px;
-    height: 100px;
-    background-color: aquamarine;
+    width: 200px;
+    height: 300px;
+    background-color: rgba(134, 148, 143, 0.228);
     position: absolute;
 }
 #arrowLeft{
@@ -41,7 +41,6 @@
 }
 #itemSet{
     height: 400px;
-    position: relative;
 }
 #item1{
     width: 100px;
