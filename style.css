@@ -40,17 +40,16 @@
     right:0;
 }
 #itemSet{
+    width: 100px;
     height: 400px;
 }
 #item1{
-    width: 100px;
     height: 100%;
     background-color: rgb(255, 212, 212);
     position: absolute;
 
 }
 #item2{
-    width: 100px;
     height: 100%;
     background-color: rgb(255, 191, 191);
     left:36%;
@@ -58,10 +57,14 @@
 
 }
 #item3{
-    width: 100px;
     height: 100%;
     background-color: rgb(255, 162, 162);
     left:72%;
     position: absolute;
 
+}
+#itemINS{
+    width: 90px;
+    height: 90px;
+    position: absolute;
 }
