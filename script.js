@@ -16,7 +16,7 @@ chara.addEventListener("click", ()=>{
 
 //키보드이벤트
     let x = 1
-    const block = 40
+    const block = 36
     const print = () => {
         chara.style.left = `${x * block}%`
     }
