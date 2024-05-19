@@ -1,6 +1,15 @@
 #mainBody{
     width: 100%;
     text-align: center;
+    position: relative;
+}
+#startBTN{
+    background-color: yellow;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 40%;
+    left:40%
 }
 #charaSet{
     height: 100px;
@@ -10,7 +19,7 @@
     background-color: aqua;
     width: 100px;
     height: 100px;
-    left:40%;
+    left:33%;
     bottom:0;
     position: absolute;
 }
@@ -30,4 +39,22 @@
 }
 #arrowRight{
     right:0;
+}
+#itemSet{
+    height: 400px;
+    position: relative;
+}
+#item1{
+    position: absolute;
+
+}
+#item2{
+    left:40%;
+    position: absolute;
+
+}
+#item3{
+    left:70%;
+    position: absolute;
+
 }
