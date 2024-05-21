@@ -3,25 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Murphy’s Delivery Service</title>   
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js"></script>
 </head>
 <body>
-    <div id="mainBody">
-        <div id="scoreHeader">캐릭터를 클릭하세요</div>
-        <div id="itemSet">
-            <div id="item1">장애물1자리</div>
-            <div id="item2">장애물2자리</div>
-            <div id="item3">장애물3자리</div>
-        </div>
-        <div id="charaSet">
-            <div id="mainChara">캐릭터</div>
-        </div>
-        <div id="arrowSet">
-            <div class="arrowInstance" id="arrowLeft"><</div>
-            <div class="arrowInstance" id="arrowRight">></div>
-        </div>
-    </div>
+    <canvas id="gameCanvas"></canvas>
+    <button id="startButton">START</button>
+    <button id="leftButton" class="direction-button"></button>
+    <button id="rightButton" class="direction-button"></button>
+    <div id="infoLives" class="info">Lives: 3</div>
+    <div id="infoItems" class="info">Items: 0</div>
+    <div id="infoScore" class="info">Score: 0</div>
+    <script src="script.js"></script>
 </body>
 </html>
