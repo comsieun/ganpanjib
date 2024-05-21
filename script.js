@@ -190,6 +190,7 @@ function gameLoop() {
     updateObstacles();
     checkCollision();
     updateInfo();
+    drawFeverTimeMessage()
 
     requestAnimationFrame(gameLoop);
 }
@@ -207,5 +208,15 @@ startButton.addEventListener('click', () => {
     gameOver = false;
     gameLoop();
 });
+
+function drawFeverTimeMessage() {
+    if (inFeverTime) {
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // 반투명한 빨간 배경
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'white';
+        ctx.font = '48px serif';
+        ctx.fillText('FeverTime!', canvas.width / 2 - 120, canvas.height / 2);
+    }
+}
 
 setInterval(createObstacle, 1000);
