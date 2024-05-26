@@ -1,6 +1,7 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const startButton = document.getElementById('startButton');
+const stopButton = document.getElementById('stopButton');
 const infoLives = document.getElementById('infoLives');
 const infoItems = document.getElementById('infoItems');
 const infoScore = document.getElementById('infoScore');
@@ -39,6 +40,7 @@ const obstacles = [];
 let gameOver = false;
 let currentLane = 1;
 let gameStarted = false;
+let gamePaused = false;
 let inFeverTime = false;
 let feverTimeDuration = 7000; // 7 seconds
 let feverTimeSpeed = 4;
@@ -75,28 +77,31 @@ function movePlayer(e) {
 }
 
 function createObstacle() {
-    const lane = Math.floor(Math.random() * 3);
-    let color;
-    if (inFeverTime) {
-        const nonBlueColors = ['red', 'orange', 'yellow', 'green', 'purple'];
-        color = nonBlueColors[Math.floor(Math.random() * nonBlueColors.length)];
-    } else {
-        color = obstacleColors[Math.floor(Math.random() * obstacleColors.length)];
+    if (!gamePaused) {
+        const lane = Math.floor(Math.random() * 3);
+        let color;
+        if (inFeverTime) {
+            color = obstacleColors[Math.floor(Math.random() * 4)]; // Exclude blue during fever time
+        } else {
+            color = obstacleColors[Math.floor(Math.random() * obstacleColors.length)];
+        }
+        obstacles.push({
+            x: lanes[lane],
+            y: 0,
+            width: 50,
+            height: 50,
+            color: color,
+            image: obstacleImages[color]
+        });
     }
-    obstacles.push({
-        x: lanes[lane],
-        y: 0,
-        width: 50,
-        height: 50,
-        color: color,
-        image: obstacleImages[color]
-    });
 }
 
 function updateObstacles() {
     const speed = inFeverTime ? feverTimeSpeed : obstacleSpeed;
     for (let i = obstacles.length - 1; i >= 0; i--) {
-        obstacles[i].y += speed;
+        if (!gamePaused) {
+            obstacles[i].y += speed;
+        }
         if (obstacles[i].y > canvas.height) {
             obstacles.splice(i, 1);
         }
@@ -129,7 +134,9 @@ function handleCollision(obstacle) {
                 }
                 break;
             case 'green':
-                player.lives += 1;
+                if (player.lives < 5) {
+                    player.lives += 1;
+                }
                 break;
             case 'blue':
                 player.items += 1;
@@ -143,7 +150,9 @@ function handleCollision(obstacle) {
         }
     } else {
         if (obstacle.color === 'green') {
-            player.lives += 1;
+            if (player.lives < 3) {
+                player.lives += 1;
+            }
         } else if (obstacle.color === 'purple') {
             player.score += 100;
         }
@@ -169,23 +178,13 @@ function drawObstacles() {
 }
 
 function updateInfo() {
-    infoLives.textContent = `Lives: ${player.lives}`;
-    infoItems.textContent = `Items: ${player.items}`;
-    infoScore.textContent = `Score: ${player.score}`;
-}
-
-function drawFeverTimeMessage() {
-    if (inFeverTime) {
-        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // 반투명한 빨간 배경
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = 'white';
-        ctx.font = '48px serif';
-        ctx.fillText('FeverTime!', canvas.width / 2 - 120, canvas.height / 2);
-    }
+    infoLives.textContent = `생명력: ${player.lives}`;
+    infoItems.textContent = `불행조각: ${player.items}`;
+    infoScore.textContent = `점수: ${player.score}`;
 }
 
 function gameLoop() {
-    if (!gameStarted) return;
+    if (!gameStarted || gamePaused) return;
 
     if (gameOver) {
         ctx.fillStyle = 'black';
@@ -201,13 +200,13 @@ function gameLoop() {
     updateObstacles();
     checkCollision();
     updateInfo();
-    drawFeverTimeMessage(); // 피버타임 메시지 그리기
 
     requestAnimationFrame(gameLoop);
 }
 
 startButton.addEventListener('click', () => {
     gameStarted = true;
+    gamePaused = false;
     startButton.style.display = 'none';
     infoLives.style.display = 'block';
     infoItems.style.display = 'block';
@@ -218,6 +217,13 @@ startButton.addEventListener('click', () => {
     obstacles.length = 0; // Clear existing obstacles
     gameOver = false;
     gameLoop();
+});
+
+stopButton.addEventListener('click', () => {
+    gamePaused = !gamePaused;
+    if (!gamePaused) {
+        gameLoop();
+    }
 });
 
 setInterval(createObstacle, 1000);

@@ -72,3 +72,15 @@ canvas {
 #rightButton {
     right: 0;
 }
+#stopButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: url('img/stop.png') no-repeat center center;
+    background-size: contain;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+}
