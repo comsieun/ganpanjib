@@ -134,7 +134,7 @@ function handleCollision(obstacle) {
                 }
                 break;
             case 'green':
-                if (player.lives < 5) {
+                if (player.lives < 3) {
                     player.lives += 1;
                 }
                 break;
@@ -154,7 +154,7 @@ function handleCollision(obstacle) {
                 player.lives += 1;
             }
         } else if (obstacle.color === 'purple') {
-            player.score += 100;
+            player.score += 500;
         }
     }
 }
