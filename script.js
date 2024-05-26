@@ -37,7 +37,7 @@ obstacleImages.green.src = 'img/green.png';
 obstacleImages.blue.src = 'img/blue.png';
 obstacleImages.purple.src = 'img/purple.png';
 
-const obstacleSpeed = 2;
+let obstacleSpeed = 2;
 const obstacles = [];
 let gameOver = false;
 let currentLane = 1;
@@ -45,7 +45,6 @@ let gameStarted = false;
 let gamePaused = false;
 let inFeverTime = false;
 const feverTimeDuration = 7000; // 7 seconds
-const feverTimeSpeed = 4;
 
 const obstacleColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 
@@ -101,7 +100,7 @@ function createObstacle() {
 }
 
 function updateObstacles() {
-    const speed = inFeverTime ? feverTimeSpeed : obstacleSpeed;
+    const speed = inFeverTime ? (obstacleSpeed+3) : obstacleSpeed;
     obstacles.forEach((obstacle, index) => {
         if (!gamePaused) {
             obstacle.y += speed;
@@ -233,4 +232,9 @@ function drawFeverTimeMessage() {
     }
 }
 
-setInterval(createObstacle, 1000);
+let timeattack = 1000
+var timer1 = setInterval(createObstacle, timeattack);
+var timer2 = setInterval(()=>{
+    obstacleSpeed += 0.05;
+    timeattack -= 5;
+}, 1000);
