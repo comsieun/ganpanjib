@@ -5,6 +5,8 @@ const stopButton = document.getElementById('stopButton');
 const infoLives = document.getElementById('infoLives');
 const infoItems = document.getElementById('infoItems');
 const infoScore = document.getElementById('infoScore');
+const leftButton = document.getElementById('leftButton');
+const rightButton = document.getElementById('rightButton');
 
 const player = {
     width: 50,
@@ -42,10 +44,12 @@ let currentLane = 1;
 let gameStarted = false;
 let gamePaused = false;
 let inFeverTime = false;
-let feverTimeDuration = 7000; // 7 seconds
-let feverTimeSpeed = 4;
+const feverTimeDuration = 7000; // 7 seconds
+const feverTimeSpeed = 4;
 
 const obstacleColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+
+const lanes = [0, 0, 0];
 
 function updateCanvasSize() {
     canvas.width = canvas.clientWidth;
@@ -59,19 +63,21 @@ function updateCanvasSize() {
     lanes[2] = (canvas.width / 4) * 3 - player.width / 2;
 }
 
-const lanes = [0, 0, 0];
 updateCanvasSize();
-
 window.addEventListener('resize', updateCanvasSize);
 
-document.addEventListener('keydown', movePlayer);
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') movePlayer(-1);
+    if (e.key === 'ArrowRight') movePlayer(1);
+});
 
-function movePlayer(e) {
-    if (e.key === 'ArrowLeft' && currentLane > 0) {
-        currentLane--;
-        player.x = lanes[currentLane];
-    } else if (e.key === 'ArrowRight' && currentLane < lanes.length - 1) {
-        currentLane++;
+leftButton.addEventListener('click', () => movePlayer(-1));
+rightButton.addEventListener('click', () => movePlayer(1));
+
+function movePlayer(direction) {
+    const newLane = currentLane + direction;
+    if (newLane >= 0 && newLane < lanes.length) {
+        currentLane = newLane;
         player.x = lanes[currentLane];
     }
 }
@@ -79,12 +85,10 @@ function movePlayer(e) {
 function createObstacle() {
     if (!gamePaused) {
         const lane = Math.floor(Math.random() * 3);
-        let color;
-        if (inFeverTime) {
-            color = obstacleColors[Math.floor(Math.random() * 4)]; // Exclude blue during fever time
-        } else {
-            color = obstacleColors[Math.floor(Math.random() * obstacleColors.length)];
-        }
+        const color = inFeverTime
+            ? obstacleColors[Math.floor(Math.random() * 4)]
+            : obstacleColors[Math.floor(Math.random() * obstacleColors.length)];
+
         obstacles.push({
             x: lanes[lane],
             y: 0,
@@ -98,18 +102,18 @@ function createObstacle() {
 
 function updateObstacles() {
     const speed = inFeverTime ? feverTimeSpeed : obstacleSpeed;
-    for (let i = obstacles.length - 1; i >= 0; i--) {
+    obstacles.forEach((obstacle, index) => {
         if (!gamePaused) {
-            obstacles[i].y += speed;
+            obstacle.y += speed;
         }
-        if (obstacles[i].y > canvas.height) {
-            obstacles.splice(i, 1);
+        if (obstacle.y > canvas.height) {
+            obstacles.splice(index, 1);
         }
-    }
+    });
 }
 
 function checkCollision() {
-    for (const obstacle of obstacles) {
+    obstacles.forEach((obstacle, index) => {
         if (
             player.x < obstacle.x + obstacle.width &&
             player.x + player.width > obstacle.x &&
@@ -117,9 +121,9 @@ function checkCollision() {
             player.y + player.height > obstacle.y
         ) {
             handleCollision(obstacle);
-            obstacles.splice(obstacles.indexOf(obstacle), 1);
+            obstacles.splice(index, 1);
         }
-    }
+    });
 }
 
 function handleCollision(obstacle) {
@@ -129,20 +133,14 @@ function handleCollision(obstacle) {
             case 'orange':
             case 'yellow':
                 player.lives -= 1;
-                if (player.lives === 0) {
-                    gameOver = true;
-                }
+                if (player.lives === 0) gameOver = true;
                 break;
             case 'green':
-                if (player.lives < 3) {
-                    player.lives += 1;
-                }
+                if (player.lives < 3) player.lives += 1;
                 break;
             case 'blue':
                 player.items += 1;
-                if (player.items >= 10) {
-                    startFeverTime();
-                }
+                if (player.items >= 10) startFeverTime();
                 break;
             case 'purple':
                 player.score += 100;
@@ -150,9 +148,7 @@ function handleCollision(obstacle) {
         }
     } else {
         if (obstacle.color === 'green') {
-            if (player.lives < 3) {
-                player.lives += 1;
-            }
+            if (player.lives < 3) player.lives += 1;
         } else if (obstacle.color === 'purple') {
             player.score += 500;
         }
@@ -172,9 +168,9 @@ function drawPlayer() {
 }
 
 function drawObstacles() {
-    for (const obstacle of obstacles) {
+    obstacles.forEach(obstacle => {
         ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-    }
+    });
 }
 
 function updateInfo() {
@@ -200,6 +196,7 @@ function gameLoop() {
     updateObstacles();
     checkCollision();
     updateInfo();
+    drawFeverTimeMessage()
 
     requestAnimationFrame(gameLoop);
 }
@@ -226,21 +223,14 @@ stopButton.addEventListener('click', () => {
     }
 });
 
+function drawFeverTimeMessage() {
+    if (inFeverTime) {
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.3)'; // 반투명한 빨간 배경
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'white';
+        ctx.font = '48px serif';
+        ctx.fillText('Fever!', canvas.width / 2, canvas.height / 2);
+    }
+}
+
 setInterval(createObstacle, 1000);
-
-const leftButton = document.getElementById('leftButton');
-const rightButton = document.getElementById('rightButton');
-
-leftButton.addEventListener('click', () => {
-    if (currentLane > 0) {
-        currentLane--;
-        player.x = lanes[currentLane];
-    }
-});
-
-rightButton.addEventListener('click', () => {
-    if (currentLane < lanes.length - 1) {
-        currentLane++;
-        player.x = lanes[currentLane];
-    }
-});

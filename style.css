@@ -1,5 +1,5 @@
-*{
-    touch-action:none;
+* {
+    touch-action: none;
 }
 body, html {
     margin: 0;
@@ -19,9 +19,9 @@ canvas {
 }
 #startButton {
     position: absolute;
-    top: 50%; /* 가장 위에 위치하도록 수정 */
+    top: 50%; /* 위치를 화면 중앙으로 수정 */
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     padding: 20px 40px;
     font-size: 24px;
     background-color: #4CAF50;
@@ -30,7 +30,6 @@ canvas {
     cursor: pointer;
     z-index: 2; /* 가장 위에 표시될 수 있도록 설정 */
 }
-
 #startButton:active {
     background-color: #45a049;
 }
@@ -57,14 +56,10 @@ canvas {
     width: 50%;
     height: 100%;
     background-color: transparent;
-    opacity: 1;
     border: none;
     cursor: pointer;
     z-index: 1;
-    -webkit-tap-highlight-color : rgba(0,0,0,0);
-}
-.direction-button:focus{
-    outline: none;
+    outline: none; /* 모든 브라우저에서 호환되도록 수정 */
 }
 #leftButton {
     left: 0;
