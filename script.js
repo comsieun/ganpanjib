@@ -45,6 +45,7 @@ let gameStarted = false;
 let gamePaused = false;
 let inFeverTime = false;
 const feverTimeDuration = 7000; // 7 seconds
+let timeattack = 1000
 
 const obstacleColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 
@@ -157,8 +158,14 @@ function handleCollision(obstacle) {
 function startFeverTime() {
     inFeverTime = true;
     player.items = 0;
+    let tmp1 = timeattack
+    let tmp2 = obstacleSpeed
+    timeattack -= 2
+
     setTimeout(() => {
         inFeverTime = false;
+        timeattack = tmp1
+        obstacleSpeed = tmp2
     }, feverTimeDuration);
 }
 
@@ -232,9 +239,8 @@ function drawFeverTimeMessage() {
     }
 }
 
-let timeattack = 1000
 var timer1 = setInterval(createObstacle, timeattack);
 var timer2 = setInterval(()=>{
-    obstacleSpeed += 0.05;
-    timeattack -= 5;
+    obstacleSpeed += 0.1;
+    timeattack -= 50;
 }, 1000);
