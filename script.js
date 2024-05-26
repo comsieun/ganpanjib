@@ -5,11 +5,6 @@ const infoLives = document.getElementById('infoLives');
 const infoItems = document.getElementById('infoItems');
 const infoScore = document.getElementById('infoScore');
 
-const leftButton = document.getElementById('leftButton');
-const rightButton = document.getElementById('rightButton');
-
-
-
 const player = {
     width: 50,
     height: 50,
@@ -17,8 +12,27 @@ const player = {
     color: 'black',
     lives: 3,
     items: 0,
-    score: 0
+    score: 0,
+    image: new Image()
 };
+
+player.image.src = 'img/player.png';
+
+const obstacleImages = {
+    red: new Image(),
+    orange: new Image(),
+    yellow: new Image(),
+    green: new Image(),
+    blue: new Image(),
+    purple: new Image()
+};
+
+obstacleImages.red.src = 'img/red.png';
+obstacleImages.orange.src = 'img/orange.png';
+obstacleImages.yellow.src = 'img/yellow.png';
+obstacleImages.green.src = 'img/green.png';
+obstacleImages.blue.src = 'img/blue.png';
+obstacleImages.purple.src = 'img/purple.png';
 
 const obstacleSpeed = 2;
 const obstacles = [];
@@ -59,25 +73,13 @@ function movePlayer(e) {
         player.x = lanes[currentLane];
     }
 }
-leftButton.addEventListener('click', () => {
-    if (currentLane > 0) {
-        currentLane--;
-        player.x = lanes[currentLane];
-    }
-});
-
-rightButton.addEventListener('click', () => {
-    if (currentLane < lanes.length - 1) {
-        currentLane++;
-        player.x = lanes[currentLane];
-    }
-});
 
 function createObstacle() {
     const lane = Math.floor(Math.random() * 3);
     let color;
     if (inFeverTime) {
-        color = obstacleColors[Math.floor(Math.random() * 4)]; // Exclude blue during fever time
+        const nonBlueColors = ['red', 'orange', 'yellow', 'green', 'purple'];
+        color = nonBlueColors[Math.floor(Math.random() * nonBlueColors.length)];
     } else {
         color = obstacleColors[Math.floor(Math.random() * obstacleColors.length)];
     }
@@ -86,7 +88,8 @@ function createObstacle() {
         y: 0,
         width: 50,
         height: 50,
-        color: color
+        color: color,
+        image: obstacleImages[color]
     });
 }
 
@@ -156,21 +159,29 @@ function startFeverTime() {
 }
 
 function drawPlayer() {
-    ctx.fillStyle = player.color;
-    ctx.fillRect(player.x, player.y, player.width, player.height);
+    ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
 }
 
 function drawObstacles() {
     for (const obstacle of obstacles) {
-        ctx.fillStyle = obstacle.color;
-        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
     }
 }
 
 function updateInfo() {
-    infoLives.textContent = `♥: ${player.lives}`;
-    infoItems.textContent = `불행조각: ${player.items}`;
+    infoLives.textContent = `Lives: ${player.lives}`;
+    infoItems.textContent = `Items: ${player.items}`;
     infoScore.textContent = `Score: ${player.score}`;
+}
+
+function drawFeverTimeMessage() {
+    if (inFeverTime) {
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // 반투명한 빨간 배경
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'white';
+        ctx.font = '48px serif';
+        ctx.fillText('FeverTime!', canvas.width / 2 - 120, canvas.height / 2);
+    }
 }
 
 function gameLoop() {
@@ -190,7 +201,7 @@ function gameLoop() {
     updateObstacles();
     checkCollision();
     updateInfo();
-    drawFeverTimeMessage()
+    drawFeverTimeMessage(); // 피버타임 메시지 그리기
 
     requestAnimationFrame(gameLoop);
 }
@@ -209,14 +220,21 @@ startButton.addEventListener('click', () => {
     gameLoop();
 });
 
-function drawFeverTimeMessage() {
-    if (inFeverTime) {
-        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // 반투명한 빨간 배경
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = 'white';
-        ctx.font = '48px serif';
-        ctx.fillText('FeverTime!', canvas.width / 2 - 120, canvas.height / 2);
-    }
-}
-
 setInterval(createObstacle, 1000);
+
+const leftButton = document.getElementById('leftButton');
+const rightButton = document.getElementById('rightButton');
+
+leftButton.addEventListener('click', () => {
+    if (currentLane > 0) {
+        currentLane--;
+        player.x = lanes[currentLane];
+    }
+});
+
+rightButton.addEventListener('click', () => {
+    if (currentLane < lanes.length - 1) {
+        currentLane++;
+        player.x = lanes[currentLane];
+    }
+});
