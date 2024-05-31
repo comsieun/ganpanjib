@@ -18,24 +18,22 @@ const player = {
     score: 0,
     image: new Image()
 };
-
 player.image.src = 'img/player.png';
 
-const obstacleImages = {
-    red: new Image(),
-    orange: new Image(),
-    yellow: new Image(),
-    green: new Image(),
-    blue: new Image(),
-    purple: new Image()
+const objectImages = {
+    obstacle1: new Image(),
+    obstacle2: new Image(),
+    obstacle3: new Image(),
+    energyDrink: new Image(),
+    misfortune: new Image(),
+    house: new Image()
 };
-
-obstacleImages.red.src = 'img/red.png';
-obstacleImages.orange.src = 'img/orange.png';
-obstacleImages.yellow.src = 'img/yellow.png';
-obstacleImages.green.src = 'img/green.png';
-obstacleImages.blue.src = 'img/blue.png';
-obstacleImages.purple.src = 'img/purple.png';
+objectImages.obstacle1.src = 'img/obstacle1.png';
+objectImages.obstacle2.src = 'img/obstacle2.png';
+objectImages.obstacle3.src = 'img/obstacle3.png';
+objectImages.energyDrink.src = 'img/energyDrink.png';
+objectImages.misfortune.src = 'img/misfortune.png';
+objectImages.house.src = 'img/house.png';
 
 let obstacleSpeed = 2;
 const obstacles = [];
@@ -45,32 +43,41 @@ let gameStarted = false;
 let gamePaused = false;
 let inFeverTime = false;
 const feverTimeDuration = 10000;
-let timeattack = 1500 // 시간당 아이템 생성
 
-const obstacleColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+const obstacleList = ['obstacle1', 'obstacle2', 'obstacle3'];
+const itemList = ['misfortune', 'energyDrink'];
+
+const obstacleSet = [
+    ['house', 'obstacle'],
+    ['obstacle', 'house'], 
+    ['house','house'],
+    ['obstacle', 'obstacle'], 
+    ['item']
+]
 
 const lanes = [0, 0, 0];
 
 function updateCanvasSize() {
-    canvas.width = canvas.clientWidth;
+    canvas.width = 400;
     canvas.height = 600;
 
-    player.x = (canvas.width / 2) - (player.width / 2);
-    player.y = canvas.height - player.height - 10;
+    player.x = (canvas.width / 2) - (player.width / 2); // 중간위치에서 시작
+    player.y = canvas.height - player.height - 10;  //캔버스 높이에서 플레이어+10만큼 뺀 높이
 
-    lanes[0] = canvas.width / 4 - player.width / 2;
-    lanes[1] = canvas.width / 2 - player.width / 2;
-    lanes[2] = (canvas.width / 4) * 3 - player.width / 2;
+    // 레인 정의 0, 1, 2
+    lanes[0] = canvas.width / 4 - player.width / 2; // 1/4에서 플레이어 반절만큼 이동
+    lanes[1] = canvas.width / 2 - player.width / 2; // 2/4에서 플레이어 반절만큼 이동
+    lanes[2] = (canvas.width / 4) * 3 - player.width / 2; // 3/4에서 플레이어 반절만큼 이동
 }
 
 updateCanvasSize();
 window.addEventListener('resize', updateCanvasSize);
 
+// 방향 이동시
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') movePlayer(-1);
     if (e.key === 'ArrowRight') movePlayer(1);
 });
-
 leftButton.addEventListener('click', () => movePlayer(-1));
 rightButton.addEventListener('click', () => movePlayer(1));
 
@@ -82,21 +89,42 @@ function movePlayer(direction) {
     }
 }
 
+//장애물 생성
 function createObstacle() {
     if (!gamePaused) {
-        const lane = Math.floor(Math.random() * 3);
-        const color = inFeverTime
-            ? obstacleColors[Math.floor(Math.random() * 4)]
-            : obstacleColors[Math.floor(Math.random() * obstacleColors.length)];
-
-        obstacles.push({
-            x: lanes[lane],
-            y: 0,
-            width: 50,
-            height: 50,
-            color: color,
-            image: obstacleImages[color]
-        });
+        const lane = Math.floor(Math.random() * 3); // 랜덤숫자 0, 1, 2
+        const type = inFeverTime
+            ? obstacleSet[Math.floor(Math.random() * 4)] // 피버타임인경우 아이템 제외 0, 1, 2, 3
+            : obstacleSet[Math.floor(Math.random() * 5)]; // 피버타임이 아닌 경우 아이템까지 0, 1, 2, 3, 4
+        if (type = 'item'){ // 아이템인 경우
+            // 불행조각과 에너지드링크 중 결정
+            const t = itemList[Math.floor(Math.random() * 2)]; // 0, 1
+            obstacles.push({
+                x: lanes[lane],
+                y: 0,
+                width: 50,
+                height: 50,
+                type: t,
+                image: objectImages[t]
+            });
+        } else{
+            obstacles.push({
+                x: lanes[lane],
+                y: 0,
+                width: 50,
+                height: 50,
+                type: type[0],
+                image: objectImages[(type[0] = 'obstacle') ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
+            });
+            obstacles.push({
+                x: lanes[(lane = 2) ? 0 : lane+1],
+                y: 0,
+                width: 50,
+                height: 50,
+                type: type[1],
+                image: objectImages[(type[1] = 'obstacle') ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
+            });
+    }
     }
 }
 
@@ -128,28 +156,24 @@ function checkCollision() {
 
 function handleCollision(obstacle) {
     if (!inFeverTime) {
-        switch (obstacle.color) {
-            case 'red':
-            case 'orange':
-            case 'yellow':
+        switch (obstacle.type) {
+            case 'obstacle':
                 player.lives -= 1;
                 if (player.lives === 0) gameOver = true;
                 break;
-            case 'green':
+            case 'energyDrink':
                 if (player.lives < 3) player.lives += 1;
                 break;
-            case 'blue':
+            case 'misfortune':
                 player.items += 1;
                 if (player.items >= 10) startFeverTime();
                 break;
-            case 'purple':
+            case 'house':
                 player.score += 100;
                 break;
         }
     } else {
-        if (obstacle.color === 'green') {
-            if (player.lives < 3) player.lives += 1;
-        } else if (obstacle.color === 'purple') {
+        if (obstacle.type === 'house') {
             player.score += 500;
         }
     }
@@ -158,13 +182,10 @@ function handleCollision(obstacle) {
 function startFeverTime() {
     inFeverTime = true;
     player.items = 0;
-    let tmp1 = timeattack
-    let tmp2 = obstacleSpeed
-    timeattack -= 2
+    const tmp2 = obstacleSpeed
 
     setTimeout(() => {
         inFeverTime = false;
-        timeattack = tmp1
         obstacleSpeed = tmp2
     }, feverTimeDuration);
 }
@@ -239,10 +260,9 @@ function drawFeverTimeMessage() {
     }
 }
 
-var timer1 = setInterval(createObstacle, timeattack);
+var timer1 = setInterval(createObstacle, 700);
 var timer2 = setInterval(()=>{
     if(gameStarted && !gamePaused){
         obstacleSpeed += 0.07;
-        timeattack = (timeattack>300) ? timeattack - 300 : timeattack //안먹힘;; 수정요함
     }
 }, 1000);
