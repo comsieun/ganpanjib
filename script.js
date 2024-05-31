@@ -1,3 +1,5 @@
+// 아이템 한번에 하나씩. 세트 처리하기 이전 버전
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const startButton = document.getElementById('startButton');
