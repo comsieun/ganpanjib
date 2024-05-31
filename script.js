@@ -44,8 +44,8 @@ let currentLane = 1;
 let gameStarted = false;
 let gamePaused = false;
 let inFeverTime = false;
-const feverTimeDuration = 7000; // 7 seconds
-let timeattack = 1000
+const feverTimeDuration = 10000;
+let timeattack = 1500 // 시간당 아이템 생성
 
 const obstacleColors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
 
@@ -235,12 +235,14 @@ function drawFeverTimeMessage() {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = 'white';
         ctx.font = '48px serif';
-        ctx.fillText('Fever!', canvas.width / 2, canvas.height / 2);
+        ctx.fillText('Fever!', canvas.width / 2 - 50, canvas.height / 2);
     }
 }
 
 var timer1 = setInterval(createObstacle, timeattack);
 var timer2 = setInterval(()=>{
-    obstacleSpeed += 0.1;
-    timeattack -= 50;
+    if(gameStarted && !gamePaused){
+        obstacleSpeed += 0.07;
+        timeattack = (timeattack>300) ? timeattack - 300 : timeattack //안먹힘;; 수정요함
+    }
 }, 1000);
