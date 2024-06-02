@@ -53,7 +53,7 @@ const obstacleSet = [
     ['house','house'],
     ['obstacle', 'obstacle'], 
     ['item']
-]
+];
 
 const lanes = [0, 0, 0];
 
@@ -75,11 +75,17 @@ window.addEventListener('resize', updateCanvasSize);
 
 // 방향 이동시
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') movePlayer(-1);
-    if (e.key === 'ArrowRight') movePlayer(1);
+    if (gameStarted && !gamePaused) {
+        if (e.key === 'ArrowLeft') movePlayer(-1);
+        if (e.key === 'ArrowRight') movePlayer(1);
+    }
 });
-leftButton.addEventListener('click', () => movePlayer(-1));
-rightButton.addEventListener('click', () => movePlayer(1));
+leftButton.addEventListener('click', () => {
+    if (gameStarted && !gamePaused) movePlayer(-1);
+});
+rightButton.addEventListener('click', () => {
+    if (gameStarted && !gamePaused) movePlayer(1);
+});
 
 function movePlayer(direction) {
     const newLane = currentLane + direction;
@@ -96,7 +102,7 @@ function createObstacle() {
         const type = inFeverTime
             ? obstacleSet[Math.floor(Math.random() * 4)] // 피버타임인경우 아이템 제외 0, 1, 2, 3
             : obstacleSet[Math.floor(Math.random() * 5)]; // 피버타임이 아닌 경우 아이템까지 0, 1, 2, 3, 4
-        if (type = 'item'){ // 아이템인 경우
+        if (type === 'item') { // 아이템인 경우
             // 불행조각과 에너지드링크 중 결정
             const t = itemList[Math.floor(Math.random() * 2)]; // 0, 1
             obstacles.push({
@@ -107,29 +113,29 @@ function createObstacle() {
                 type: t,
                 image: objectImages[t]
             });
-        } else{
+        } else {
             obstacles.push({
                 x: lanes[lane],
                 y: 0,
                 width: 50,
                 height: 50,
                 type: type[0],
-                image: objectImages[(type[0] = 'obstacle') ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
+                image: objectImages[type[0] === 'obstacle' ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
             });
             obstacles.push({
-                x: lanes[(lane = 2) ? 0 : lane+1],
+                x: lanes[(lane === 2) ? 0 : lane + 1],
                 y: 0,
                 width: 50,
                 height: 50,
                 type: type[1],
-                image: objectImages[(type[1] = 'obstacle') ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
+                image: objectImages[type[1] === 'obstacle' ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
             });
-    }
+        }
     }
 }
 
 function updateObstacles() {
-    const speed = inFeverTime ? (obstacleSpeed+3) : obstacleSpeed;
+    const speed = inFeverTime ? (obstacleSpeed + 3) : obstacleSpeed;
     obstacles.forEach((obstacle, index) => {
         if (!gamePaused) {
             obstacle.y += speed;
@@ -182,11 +188,11 @@ function handleCollision(obstacle) {
 function startFeverTime() {
     inFeverTime = true;
     player.items = 0;
-    const tmp2 = obstacleSpeed
+    const tmp2 = obstacleSpeed;
 
     setTimeout(() => {
         inFeverTime = false;
-        obstacleSpeed = tmp2
+        obstacleSpeed = tmp2;
     }, feverTimeDuration);
 }
 
@@ -223,7 +229,7 @@ function gameLoop() {
     updateObstacles();
     checkCollision();
     updateInfo();
-    drawFeverTimeMessage()
+    drawFeverTimeMessage();
 
     requestAnimationFrame(gameLoop);
 }
@@ -261,8 +267,8 @@ function drawFeverTimeMessage() {
 }
 
 var timer1 = setInterval(createObstacle, 700);
-var timer2 = setInterval(()=>{
-    if(gameStarted && !gamePaused){
+var timer2 = setInterval(() => {
+    if (gameStarted && !gamePaused) {
         obstacleSpeed += 0.07;
     }
 }, 1000);
