@@ -196,9 +196,11 @@ function handleCollision(obstacle) {
 function startFeverTime() {
     inFeverTime = true;
     player.items = 0;
+    player.image.src = 'img/player_fever.png';
 
     setTimeout(() => {
         inFeverTime = false;
+        player.image.src = 'img/player.png';
     }, feverTimeDuration);
 }
 
