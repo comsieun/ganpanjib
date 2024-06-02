@@ -35,7 +35,7 @@ objectImages.energyDrink.src = 'img/energyDrink.png';
 objectImages.misfortune.src = 'img/misfortune.png';
 objectImages.house.src = 'img/house.png';
 
-let obstacleSpeed = 2;
+let obstacleSpeed = 4;
 const obstacles = [];
 let gameOver = false;
 let currentLane = 1;
@@ -52,7 +52,8 @@ const obstacleSet = [
     ['obstacle', 'house'], 
     ['house','house'],
     ['obstacle', 'obstacle'], 
-    ['item']
+    ['item'],
+    ['misfortune'] // 불행조각 잦은 빈도를 위해..
 ];
 
 const lanes = [0, 0, 0];
@@ -97,40 +98,49 @@ function movePlayer(direction) {
 
 //장애물 생성
 function createObstacle() {
-    if (!gamePaused) {
+    if (!gamePaused && !gameOver && gameStarted) {
         const lane = Math.floor(Math.random() * 3); // 랜덤숫자 0, 1, 2
         const type = inFeverTime
             ? obstacleSet[Math.floor(Math.random() * 4)] // 피버타임인경우 아이템 제외 0, 1, 2, 3
-            : obstacleSet[Math.floor(Math.random() * 5)]; // 피버타임이 아닌 경우 아이템까지 0, 1, 2, 3, 4
-        if (type === 'item') { // 아이템인 경우
-            // 불행조각과 에너지드링크 중 결정
-            const t = itemList[Math.floor(Math.random() * 2)]; // 0, 1
-            obstacles.push({
-                x: lanes[lane],
-                y: 0,
-                width: 50,
-                height: 50,
-                type: t,
-                image: objectImages[t]
-            });
-        } else {
-            obstacles.push({
-                x: lanes[lane],
-                y: 0,
-                width: 50,
-                height: 50,
-                type: type[0],
-                image: objectImages[type[0] === 'obstacle' ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
-            });
-            obstacles.push({
-                x: lanes[(lane === 2) ? 0 : lane + 1],
-                y: 0,
-                width: 50,
-                height: 50,
-                type: type[1],
-                image: objectImages[type[1] === 'obstacle' ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
-            });
-        }
+            : obstacleSet[Math.floor(Math.random() * 6)]; // 피버타임이 아닌 경우 아이템까지 0, 1, 2, 3, 4, 5
+            if (type == 'item') { // 아이템인 경우
+                // 불행조각과 에너지드링크 중 결정
+                const t = itemList[Math.floor(Math.random() * 2)]; // 0, 1
+                obstacles.push({
+                    x: lanes[lane],
+                    y: 0,
+                    width: 50,
+                    height: 50,
+                    type: t,
+                    image: objectImages[t]
+                });
+            } else if (type == 'misfortune'){
+                obstacles.push({
+                    x: lanes[lane],
+                    y: 0,
+                    width: 50,
+                    height: 50,
+                    type: type,
+                    image: objectImages[type]
+                });
+            }else {
+                obstacles.push({
+                    x: lanes[lane],
+                    y: 0,
+                    width: 50,
+                    height: 50,
+                    type: type[0],
+                    image: objectImages[type[0] === 'obstacle' ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
+                });
+                obstacles.push({
+                    x: lanes[(lane === 2) ? 0 : lane + 1],
+                    y: 0,
+                    width: 50,
+                    height: 50,
+                    type: type[1],
+                    image: objectImages[type[1] === 'obstacle' ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
+                });
+            }
     }
 }
 
@@ -162,23 +172,21 @@ function checkCollision() {
 
 function handleCollision(obstacle) {
     if (!inFeverTime) {
-        switch (obstacle.type) {
-            case 'obstacle':
-                player.lives -= 1;
-                if (player.lives === 0) gameOver = true;
-                break;
-            case 'energyDrink':
-                if (player.lives < 3) player.lives += 1;
-                break;
-            case 'misfortune':
-                player.items += 1;
-                if (player.items >= 10) startFeverTime();
-                break;
-            case 'house':
-                player.score += 100;
-                break;
+        if (obstacle.type == 'obstacle'){
+            player.lives -= 1;
+            if (player.lives === 0) gameOver = true;
+            }
+        else if (obstacle.type ==  'energyDrink'){
+            if (player.lives < 3) player.lives += 1;
         }
-    } else {
+        else if (obstacle.type == 'misfortune'){
+            player.items += 1;
+            if (player.items >= 10) startFeverTime();
+        }
+        else if (obstacle.type == 'house'){
+            player.score += 100;
+        }
+    }else {
         if (obstacle.type === 'house') {
             player.score += 500;
         }
@@ -188,11 +196,9 @@ function handleCollision(obstacle) {
 function startFeverTime() {
     inFeverTime = true;
     player.items = 0;
-    const tmp2 = obstacleSpeed;
 
     setTimeout(() => {
         inFeverTime = false;
-        obstacleSpeed = tmp2;
     }, feverTimeDuration);
 }
 
@@ -267,8 +273,3 @@ function drawFeverTimeMessage() {
 }
 
 var timer1 = setInterval(createObstacle, 700);
-var timer2 = setInterval(() => {
-    if (gameStarted && !gamePaused) {
-        obstacleSpeed += 0.07;
-    }
-}, 1000);
