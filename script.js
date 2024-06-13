@@ -281,7 +281,7 @@ startButton.addEventListener('click', () => {
 stopButton.addEventListener('click', () => {
     gamePaused = !gamePaused;
     if (gamePaused) {
-        stopButtonImage.src='img/break.png'
+        stopButtonImage.src='img/play.png'
         // 피버 타임 타이머 멈추기
         if (inFeverTime) {
             clearTimeout(feverTimeTimeout);
