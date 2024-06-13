@@ -7,6 +7,7 @@ const infoItems = document.getElementById('infoItems');
 const infoScore = document.getElementById('infoScore');
 const leftButton = document.getElementById('leftButton');
 const rightButton = document.getElementById('rightButton');
+const stopButtonImage = document.getElementById('stopButtonImage');
 
 const player = {
     width: 50,
@@ -260,7 +261,11 @@ startButton.addEventListener('click', () => {
 stopButton.addEventListener('click', () => {
     gamePaused = !gamePaused;
     if (!gamePaused) {
+        stopButtonImage.src='img/stop.png'
         gameLoop();
+    }
+    else{
+        stopButtonImage.src='img/break.png'
     }
 });
 
