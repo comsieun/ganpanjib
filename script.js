@@ -44,6 +44,9 @@ let gameStarted = false;
 let gamePaused = false;
 let inFeverTime = false;
 const feverTimeDuration = 10000;
+let feverTimeRemaining = 0;
+let feverTimeStartTime = 0;
+let feverTimeTimeout;
 
 const obstacleList = ['obstacle1', 'obstacle2', 'obstacle3'];
 const itemList = ['misfortune', 'energyDrink'];
@@ -198,12 +201,18 @@ function startFeverTime() {
     inFeverTime = true;
     player.items = 0;
     player.image.src = 'img/player_fever.png';
+    feverTimeStartTime = Date.now(); //지금 시간 저장
+    feverTimeRemaining = feverTimeDuration; //남은시간에 10000밀리초 저장
+    const originalObstacleSpeed = obstacleSpeed; //원래 스피드 따로 저장
+    obstacleSpeed += 3; // 장애물 속도를 증가시킴
 
-    setTimeout(() => {
+    feverTimeTimeout = setTimeout(() => {
         inFeverTime = false;
         player.image.src = 'img/player.png';
-    }, feverTimeDuration);
+        obstacleSpeed = originalObstacleSpeed; // 원래 속도로 복원
+    }, feverTimeRemaining);
 }
+
 
 function drawPlayer() {
     ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
@@ -260,14 +269,28 @@ startButton.addEventListener('click', () => {
 
 stopButton.addEventListener('click', () => {
     gamePaused = !gamePaused;
-    if (!gamePaused) {
+    if (gamePaused) {
+        stopButtonImage.src='img/break.png'
+        // 피버 타임 타이머 멈추기
+        if (inFeverTime) {
+            clearTimeout(feverTimeTimeout);
+            feverTimeRemaining -= Date.now() - feverTimeStartTime;
+        }
+    } else {
+        // 피버 타임 타이머 재개 
         stopButtonImage.src='img/stop.png'
+
+        if (inFeverTime) {
+            feverTimeStartTime = Date.now();
+            feverTimeTimeout = setTimeout(() => {
+                inFeverTime = false;
+                obstacleSpeed = originalObstacleSpeed; // 원래 속도로 복원
+            }, feverTimeRemaining);
+        }
         gameLoop();
     }
-    else{
-        stopButtonImage.src='img/break.png'
-    }
 });
+
 
 function drawFeverTimeMessage() {
     if (inFeverTime) {
