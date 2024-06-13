@@ -27,7 +27,12 @@ const objectImages = {
     obstacle3: new Image(),
     energyDrink: new Image(),
     misfortune: new Image(),
-    house: new Image()
+    house: new Image(),
+    house1: new Image(),
+    house2: new Image(),
+    house3: new Image(),
+    house4: new Image(),
+    house5: new Image()
 };
 objectImages.obstacle1.src = 'img/obstacle1.png';
 objectImages.obstacle2.src = 'img/obstacle2.png';
@@ -35,6 +40,11 @@ objectImages.obstacle3.src = 'img/obstacle3.png';
 objectImages.energyDrink.src = 'img/energyDrink.png';
 objectImages.misfortune.src = 'img/misfortune.png';
 objectImages.house.src = 'img/house.png';
+objectImages.house1.src = 'img/house1.png';
+objectImages.house2.src = 'img/house2.png';
+objectImages.house3.src = 'img/house3.png';
+objectImages.house4.src = 'img/house4.png';
+objectImages.house5.src = 'img/house5.png';
 
 let obstacleSpeed = 4;
 const obstacles = [];
@@ -47,6 +57,7 @@ const feverTimeDuration = 10000;
 let feverTimeRemaining = 0;
 let feverTimeStartTime = 0;
 let feverTimeTimeout;
+let originalObstacleSpeed;
 
 const obstacleList = ['obstacle1', 'obstacle2', 'obstacle3'];
 const itemList = ['misfortune', 'energyDrink'];
@@ -284,6 +295,7 @@ stopButton.addEventListener('click', () => {
             feverTimeStartTime = Date.now();
             feverTimeTimeout = setTimeout(() => {
                 inFeverTime = false;
+                player.image.src = 'img/player.png';
                 obstacleSpeed = originalObstacleSpeed; // 원래 속도로 복원
             }, feverTimeRemaining);
         }
