@@ -111,7 +111,7 @@ function movePlayer(direction) {
     }
 }
 
-//장애물 생성
+// 장애물 생성
 function createObstacle() {
     if (!gamePaused && !gameOver && gameStarted) {
         const lane = Math.floor(Math.random() * 3); // 랜덤숫자 0, 1, 2
@@ -159,6 +159,7 @@ function createObstacle() {
     }
 }
 
+// 오브젝트 내려옴
 function updateObstacles() {
     const speed = inFeverTime ? (obstacleSpeed + 3) : obstacleSpeed;
     obstacles.forEach((obstacle, index) => {
@@ -171,6 +172,7 @@ function updateObstacles() {
     });
 }
 
+// 충돌 체크
 function checkCollision() {
     obstacles.forEach((obstacle, index) => {
         if (
@@ -185,6 +187,7 @@ function checkCollision() {
     });
 }
 
+// 충돌 처리
 function handleCollision(obstacle) {
     if (!inFeverTime) {
         if (obstacle.type == 'obstacle'){
@@ -204,10 +207,13 @@ function handleCollision(obstacle) {
     }else {
         if (obstacle.type === 'house') {
             player.score += 500;
+        }else if (obstacle.type == 'obstacle'){ // (피버) 장애물 파괴시 50
+            player.score += 50;
         }
     }
 }
 
+// 피버타임 시작
 function startFeverTime() {
     inFeverTime = true;
     player.items = 0;
@@ -224,23 +230,26 @@ function startFeverTime() {
     }, feverTimeRemaining);
 }
 
-
+// 플레이어 그려줌
 function drawPlayer() {
     ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
 }
 
+// 오브젝트 그려줌
 function drawObstacles() {
     obstacles.forEach(obstacle => {
         ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
     });
 }
 
+// 아이템 메세지
 function updateInfo() {
     infoLives.textContent = `생명력: ${player.lives}`;
     infoItems.textContent = `불행조각: ${player.items}`;
     infoScore.textContent = `점수: ${player.score}`;
 }
 
+//기본 실행 함수
 function gameLoop() {
     if (!gameStarted || gamePaused) return;
 
@@ -260,9 +269,10 @@ function gameLoop() {
     updateInfo();
     drawFeverTimeMessage();
 
-    requestAnimationFrame(gameLoop);
+    requestAnimationFrame(gameLoop); //재귀
 }
 
+// 게임 시작
 startButton.addEventListener('click', () => {
     gameStarted = true;
     gamePaused = false;
@@ -273,11 +283,12 @@ startButton.addEventListener('click', () => {
     player.lives = 3;
     player.items = 0;
     player.score = 0;
-    obstacles.length = 0; // Clear existing obstacles
+    obstacles.length = 0; 
     gameOver = false;
     gameLoop();
 });
 
+// 게임 멈춤
 stopButton.addEventListener('click', () => {
     gamePaused = !gamePaused;
     if (gamePaused) {
@@ -303,7 +314,7 @@ stopButton.addEventListener('click', () => {
     }
 });
 
-
+// 피버타임 메시지
 function drawFeverTimeMessage() {
     if (inFeverTime) {
         ctx.fillStyle = 'rgba(255, 0, 0, 0.3)'; // 반투명한 빨간 배경
