@@ -61,7 +61,9 @@ let feverTimeStartTime = 0;
 let feverTimeTimeout;
 let originalObstacleSpeed;
 let emergencyCount = 5;
-let count = 0
+let count = 0;
+let answer = 0;
+let emergencyAnswerTime = false
 
 const obstacleList = ['obstacle1', 'obstacle2', 'obstacle3'];
 const itemList = ['misfortune', 'energyDrink'];
@@ -247,6 +249,10 @@ function drawPlayer() {
     ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
 }
 
+function drawAnswer(answer) {
+    ctx.drawImage(objectImages[houseList[answer]], canvas.width / 2 - 25, canvas.height / 2 - 25, 50, 50);
+}
+
 // 오브젝트 그려줌
 function drawObstacles() {
     obstacles.forEach(obstacle => {
@@ -278,7 +284,10 @@ function gameLoop() {
         countEmergency();
         drawFeverTimeMessage();
     }
-    
+    if(emergencyAnswerTime){
+        drawAnswer(answer)
+    }
+
     drawObstacles();
     updateObstacles();
     checkCollision();
@@ -370,15 +379,18 @@ function startEmergency(){
 }
 
 function emergencySet() {
-    const answer = Math.floor(Math.random() * 6);
+    answer = Math.floor(Math.random() * 6);
+    drawAnswer(answer)
+    emergencyAnswerTime = true
 
-    ctx.drawImage(objectImages[houseList[answer]], canvas.width / 2 - 25, canvas.height / 2, 50, 50)
+    setTimeout(() => {
+        emergencyAnswerTime = false
+        createEmergencyObject(answer);
+    }, 2000);
 
-    setTimeout(()=>{
-        console.log("2초 기다리기")
-    }, 2000)
-
-    createEmergencyObject(answer)
+    setTimeout(() => {
+            emergency = !emergency // false
+    }, 6000)
 }
 
 function createEmergencyObject(answer){
