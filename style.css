@@ -52,6 +52,10 @@ canvas {
     top: 70px;
     left: 10px;
 }
+#emergencyTimer{
+    top: 100px;
+    left: 10px;
+}
 .direction-button {
     position: absolute;
     width: 50%;

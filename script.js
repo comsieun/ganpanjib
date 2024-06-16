@@ -8,6 +8,7 @@ const infoScore = document.getElementById('infoScore');
 const leftButton = document.getElementById('leftButton');
 const rightButton = document.getElementById('rightButton');
 const stopButtonImage = document.getElementById('stopButtonImage');
+const emergencyTimer = document.getElementById('emergencyTimer');
 
 const player = {
     width: 50,
@@ -53,14 +54,18 @@ let currentLane = 1;
 let gameStarted = false;
 let gamePaused = false;
 let inFeverTime = false;
+let emergency = false;
 const feverTimeDuration = 10000;
 let feverTimeRemaining = 0;
 let feverTimeStartTime = 0;
 let feverTimeTimeout;
 let originalObstacleSpeed;
+let emergencyCount = 5;
+let count = 0
 
 const obstacleList = ['obstacle1', 'obstacle2', 'obstacle3'];
 const itemList = ['misfortune', 'energyDrink'];
+const houseList = ['house','house1','house2','house3','house4','house5',]
 
 const obstacleSet = [
     ['house', 'obstacle'],
@@ -113,7 +118,7 @@ function movePlayer(direction) {
 
 // 장애물 생성
 function createObstacle() {
-    if (!gamePaused && !gameOver && gameStarted) {
+    if (!gamePaused && !gameOver && gameStarted && !emergency) {
         const lane = Math.floor(Math.random() * 3); // 랜덤숫자 0, 1, 2
         const type = inFeverTime
             ? obstacleSet[Math.floor(Math.random() * 4)] // 피버타임인경우 아이템 제외 0, 1, 2, 3
@@ -189,7 +194,7 @@ function checkCollision() {
 
 // 충돌 처리
 function handleCollision(obstacle) {
-    if (!inFeverTime) {
+    if (!inFeverTime && !emergency) {
         if (obstacle.type == 'obstacle'){
             player.lives -= 1;
             if (player.lives === 0) gameOver = true;
@@ -204,11 +209,18 @@ function handleCollision(obstacle) {
         else if (obstacle.type == 'house'){
             player.score += 100;
         }
-    }else {
+    }else if(inFeverTime) {
         if (obstacle.type === 'house') {
             player.score += 500;
         }else if (obstacle.type == 'obstacle'){ // (피버) 장애물 파괴시 50
             player.score += 50;
+        }
+    }else if(emergency){
+        if (obstacle.type == 'correct'){
+            player.score += 300;
+        } else {
+            player.lives -= 1;
+            if (player.lives === 0) gameOver = true;
         }
     }
 }
@@ -242,7 +254,7 @@ function drawObstacles() {
     });
 }
 
-// 아이템 메세지
+// 아이템 메세지 그려줌
 function updateInfo() {
     infoLives.textContent = `생명력: ${player.lives}`;
     infoItems.textContent = `불행조각: ${player.items}`;
@@ -262,14 +274,18 @@ function gameLoop() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    drawPlayer();
+    if(!emergency){
+        countEmergency();
+        drawFeverTimeMessage();
+    }
+    
     drawObstacles();
     updateObstacles();
     checkCollision();
+    drawPlayer();
     updateInfo();
-    drawFeverTimeMessage();
 
-    requestAnimationFrame(gameLoop); //재귀
+    requestAnimationFrame(gameLoop); 
 }
 
 // 게임 시작
@@ -280,11 +296,15 @@ startButton.addEventListener('click', () => {
     infoLives.style.display = 'block';
     infoItems.style.display = 'block';
     infoScore.style.display = 'block';
+    emergencyTimer.style.display = 'block';
     player.lives = 3;
     player.items = 0;
     player.score = 0;
     obstacles.length = 0; 
     gameOver = false;
+    var timerEmergency = setInterval(() => {
+        emergencyCount -= 1
+    }, 1000);
     gameLoop();
 });
 
@@ -323,6 +343,83 @@ function drawFeverTimeMessage() {
         ctx.font = '48px serif';
         ctx.fillText('Fever!', canvas.width / 2 - 50, canvas.height / 2);
     }
+}
+
+//돌발상황 카운트
+function countEmergency(){
+    if(emergencyCount < 0){
+        emergencyTimer.style.display = 'none';
+        emergencyCount = 60
+        console.log("돌발 상황 시작")
+        startEmergency()
+    } else{
+        emergencyTimer.textContent = `돌발 상황이 일어나기까지... ${emergencyCount}초`;
+    }
+}
+
+//돌발상황 시작
+function startEmergency(){
+    emergency = !emergency // true
+    console.log("이멀전씨 트루")
+    count += 1
+
+    // 필드에 있던 오브젝트 삭제
+    obstacles.splice(0)
+    drawObstacles();    
+    emergencySet()
+}
+
+function emergencySet() {
+    const answer = Math.floor(Math.random() * 6);
+
+    ctx.drawImage(objectImages[houseList[answer]], canvas.width / 2 - 25, canvas.height / 2, 50, 50)
+
+    setTimeout(()=>{
+        console.log("2초 기다리기")
+    }, 2000)
+
+    createEmergencyObject(answer)
+}
+
+function createEmergencyObject(answer){
+    let tmp = Math.floor(Math.random() * 6)
+    tmp = tmp === answer ? tmp+1 : tmp
+    const a = tmp >= houseList.length ? tmp - (houseList-1) : tmp
+
+    console.log(`페이크: ${houseList[tmp]}`)
+
+    tmp = Math.floor(Math.random() * 6)
+    tmp = tmp === answer ? tmp+1 : tmp
+    const b = tmp >= houseList.length ? tmp - (houseList-1) : tmp
+    
+    console.log(`페이크: ${houseList[tmp]}`)
+
+    const lane = Math.floor(Math.random() * 3);
+
+    obstacles.push({    // 정답
+        x: lanes[lane],
+        y: 0,
+        width: 50,
+        height: 50,
+        type: 'correct',
+        image: objectImages[houseList[answer]]
+    })
+    obstacles.push({    // 정답 아님1
+        x: lanes[(lane === 2) ? 0 : lane + 1],
+        y: 0,
+        width: 50,
+        height: 50,
+        type: 'incorrect',
+        image: objectImages[houseList[a]]
+    })
+    obstacles.push({    // 정답 아님1
+        x: lanes[(lane === 0) ? 2 : lane -1],
+        y: 0,
+        width: 50,
+        height: 50,
+        type: 'incorrect',
+        image: objectImages[houseList[b]]
+    })
 }
 
 var timer1 = setInterval(createObstacle, 700);
