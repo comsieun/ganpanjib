@@ -312,8 +312,9 @@ startButton.addEventListener('click', () => {
     obstacles.length = 0; 
     gameOver = false;
     var timerEmergency = setInterval(() => {
-        emergencyCount -= 1
-    }, 1000);
+        if (!inFeverTime){
+            emergencyCount -= 1
+        }}, 1000);
     gameLoop();
 });
 
