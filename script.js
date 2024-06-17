@@ -60,7 +60,7 @@ let feverTimeRemaining = 0;
 let feverTimeStartTime = 0;
 let feverTimeTimeout;
 let originalObstacleSpeed;
-let emergencyCount = 5;
+let emergencyCount = 30;
 let count = 0;
 let answer = 0;
 let emergencyAnswerTime = false
@@ -376,6 +376,13 @@ function startEmergency(){
     obstacles.splice(0)
     drawObstacles();    
     emergencySet()
+    
+    setTimeout(() => {
+        emergency = !emergency // false
+        emergencyCount = 30
+        emergencyTimer.style.display = 'block';
+        console.log("돌발 상황 끝")
+    }, 6000)
 }
 
 function emergencySet() {
@@ -388,9 +395,6 @@ function emergencySet() {
         createEmergencyObject(answer);
     }, 2000);
 
-    setTimeout(() => {
-            emergency = !emergency // false
-    }, 6000)
 }
 
 function createEmergencyObject(answer){
