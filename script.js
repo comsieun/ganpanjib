@@ -60,8 +60,9 @@ let feverTimeRemaining = 0;
 let feverTimeStartTime = 0;
 let feverTimeTimeout;
 let originalObstacleSpeed;
-let emergencyCount = 30;    // 돌발상황 카운트 (기본값: 30)
+let emergencyCount = 3;    // 돌발상황 카운트 (기본값: 30)
 let count = 0;
+let tmpCount = 0;
 let answer = 0;
 let emergencyAnswerTime = false
 
@@ -379,6 +380,9 @@ function startEmergency(){
     emergency = !emergency // true
     // console.log("이멀전씨 트루")
     count += 1
+    tmpCount = count
+
+    console.log("count: ", count)
 
     // 필드에 있던 오브젝트 삭제
     obstacles.splice(0)
@@ -387,15 +391,17 @@ function startEmergency(){
     
     setTimeout(() => {
         emergency = !emergency // false
-        emergencyCount = 30     //돌발상황 카운트 (기본값: 30)
+        emergencyCount = 5     //돌발상황 카운트 (기본값: 30)
         emergencyTimer.style.display = 'block';
         // console.log("돌발 상황 끝")
-    }, 6000)
+    }, 7000*count)
 }
 
 function emergencySet() {
+    tmpCount -= 1
+    console.log("남은 count: ", tmpCount)
     answer = Math.floor(Math.random() * 6);
-    console.log("answer: ", answer)
+    // console.log("answer: ", answer)
 
     drawAnswer(answer)
     emergencyAnswerTime = true
@@ -407,23 +413,30 @@ function emergencySet() {
             createEmergencyObject(answer)
             setTimeout(() => {
                 createEmergencyObject(answer)
+                if(tmpCount>0){
+                    setTimeout(() => {
+                        emergencySet()
+                    }, 3000);
+                }
             }, 1000);
         }, 1000)
     }, 2000);
+
+
 
 }
 
 function createEmergencyObject(answer){
     let tmp = Math.floor(Math.random() * 6)
     tmp = tmp === answer ? tmp+1 : tmp
-
-    console.log("tmp1: ", tmp)
+    
     const a = tmp >= houseList.length ? tmp - (houseList.length) : tmp
 
     // console.log(`페이크: ${houseList[tmp]}`)
 
     tmp = Math.floor(Math.random() * 6)
     tmp = tmp === answer ? tmp+1 : tmp
+
     const b = tmp >= houseList.length ? tmp - (houseList.length) : tmp
     
     // console.log(`페이크: ${houseList[tmp]}`)
