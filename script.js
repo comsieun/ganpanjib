@@ -60,7 +60,7 @@ let feverTimeRemaining = 0;
 let feverTimeStartTime = 0;
 let feverTimeTimeout;
 let originalObstacleSpeed;
-let emergencyCount = 30;
+let emergencyCount = 30;    // 돌발상황 카운트 (기본값: 30)
 let count = 0;
 let answer = 0;
 let emergencyAnswerTime = false
@@ -219,8 +219,10 @@ function handleCollision(obstacle) {
         }
     }else if(emergency){
         if (obstacle.type == 'correct'){
+            console.log("correct")
             player.score += 300;
         } else {
+            console.log("incorrect")
             player.lives -= 1;
             if (player.lives === 0) gameOver = true;
         }
@@ -256,6 +258,11 @@ function drawAnswer(answer) {
 // 오브젝트 그려줌
 function drawObstacles() {
     obstacles.forEach(obstacle => {
+        // console.log("obstacle.image: ", obstacle.image)
+        // console.log("obstacle.x: ", obstacle.x)
+        // console.log("obstacle.y: ", obstacle.y)
+        // console.log("obstacle.width: ", obstacle.width)
+        // console.log("obstacle.height: ", obstacle.height)
         ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
     });
 }
@@ -360,7 +367,7 @@ function countEmergency(){
     if(emergencyCount < 0){
         emergencyTimer.style.display = 'none';
         emergencyCount = 60
-        console.log("돌발 상황 시작")
+        // console.log("돌발 상황 시작")
         startEmergency()
     } else{
         emergencyTimer.textContent = `돌발 상황이 일어나기까지... ${emergencyCount}초`;
@@ -370,7 +377,7 @@ function countEmergency(){
 //돌발상황 시작
 function startEmergency(){
     emergency = !emergency // true
-    console.log("이멀전씨 트루")
+    // console.log("이멀전씨 트루")
     count += 1
 
     // 필드에 있던 오브젝트 삭제
@@ -380,20 +387,28 @@ function startEmergency(){
     
     setTimeout(() => {
         emergency = !emergency // false
-        emergencyCount = 30
+        emergencyCount = 30     //돌발상황 카운트 (기본값: 30)
         emergencyTimer.style.display = 'block';
-        console.log("돌발 상황 끝")
+        // console.log("돌발 상황 끝")
     }, 6000)
 }
 
 function emergencySet() {
     answer = Math.floor(Math.random() * 6);
+    console.log("answer: ", answer)
+
     drawAnswer(answer)
     emergencyAnswerTime = true
 
     setTimeout(() => {
         emergencyAnswerTime = false
         createEmergencyObject(answer);
+        setTimeout(()=>{
+            createEmergencyObject(answer)
+            setTimeout(() => {
+                createEmergencyObject(answer)
+            }, 1000);
+        }, 1000)
     }, 2000);
 
 }
@@ -401,15 +416,17 @@ function emergencySet() {
 function createEmergencyObject(answer){
     let tmp = Math.floor(Math.random() * 6)
     tmp = tmp === answer ? tmp+1 : tmp
-    const a = tmp >= houseList.length ? tmp - (houseList-1) : tmp
 
-    console.log(`페이크: ${houseList[tmp]}`)
+    console.log("tmp1: ", tmp)
+    const a = tmp >= houseList.length ? tmp - (houseList.length) : tmp
+
+    // console.log(`페이크: ${houseList[tmp]}`)
 
     tmp = Math.floor(Math.random() * 6)
     tmp = tmp === answer ? tmp+1 : tmp
-    const b = tmp >= houseList.length ? tmp - (houseList-1) : tmp
+    const b = tmp >= houseList.length ? tmp - (houseList.length) : tmp
     
-    console.log(`페이크: ${houseList[tmp]}`)
+    // console.log(`페이크: ${houseList[tmp]}`)
 
     const lane = Math.floor(Math.random() * 3);
 
