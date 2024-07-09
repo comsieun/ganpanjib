@@ -60,7 +60,7 @@ let feverTimeRemaining = 0;
 let feverTimeStartTime = 0;
 let feverTimeTimeout;
 let originalObstacleSpeed;
-let emergencyCount = 3;    // 돌발상황 카운트 (기본값: 30)
+let emergencyCount = 30;    // 돌발상황 카운트 (기본값: 30)
 let count = 0;
 let tmpCount = 0;
 let answer = 0;
@@ -391,7 +391,7 @@ function startEmergency(){
     
     setTimeout(() => {
         emergency = !emergency // false
-        emergencyCount = 5     //돌발상황 카운트 (기본값: 30)
+        emergencyCount = 30     //돌발상황 카운트 (기본값: 30)
         emergencyTimer.style.display = 'block';
         // console.log("돌발 상황 끝")
     }, 7000*count)
