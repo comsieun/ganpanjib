@@ -10,17 +10,6 @@ const rightButton = document.getElementById('rightButton');
 const stopButtonImage = document.getElementById('stopButtonImage');
 const emergencyTimer = document.getElementById('emergencyTimer');
 
-const player = {
-    width: 100,
-    height: 100,
-    speed: 5,
-    color: 'black',
-    lives: 3,
-    items: 0,
-    score: 0,
-    type: 'default' //default, delivery, fever, feverDelivery,getItem, hurt, retire
-};
-
 //이미지 정의
 const playerDefaults={
     default0: new Image(),
@@ -395,6 +384,17 @@ objectImages.house2.src = 'img/house2.png';
 objectImages.house3.src = 'img/house3.png';
 objectImages.house4.src = 'img/house4.png';
 objectImages.house5.src = 'img/house5.png';
+
+const player = {
+    width: 50,
+    height: 50,
+    speed: 5,
+    color: 'black',
+    lives: 3,
+    items: 0,
+    score: 0,
+    type: 'default' //default, delivery, fever, feverDelivery,getItem, hurt, retire
+};
 
 let obstacleSpeed = 4;
 const obstacles = [];
