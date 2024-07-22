@@ -386,8 +386,8 @@ objectImages.house4.src = 'img/house4.png';
 objectImages.house5.src = 'img/house5.png';
 
 const player = {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
     speed: 5,
     color: 'black',
     lives: 3,
