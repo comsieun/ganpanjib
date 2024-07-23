@@ -387,6 +387,9 @@ objectImages.house3.src = 'img/house3.png';
 objectImages.house4.src = 'img/house4.png';
 objectImages.house5.src = 'img/house5.png';
 
+const frameImg = new Image();
+frameImg.src = 'img/frame.png';
+
 let obstacleSpeed = 4;
 const obstacles = [];
 let gameOver = false;
@@ -701,7 +704,9 @@ function drawPlayer() {
 }
 
 function drawAnswer(answer) {
+    ctx.drawImage(frameImg, canvas.width / 2 - objectwidth / 2, canvas.height / 2 - objectwidth/2, objectwidth, objectwidth);
     ctx.drawImage(objectImages[houseList[answer]], canvas.width / 2 - objectwidth / 2, canvas.height / 2 - objectwidth/2, objectwidth, objectwidth);
+
 }
 
 // 오브젝트 그려줌
