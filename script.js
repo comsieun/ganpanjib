@@ -922,5 +922,5 @@ function createEmergencyObject(answer){
     })
 }
 
-var timer1 = setInterval(createObstacle, 700);
+var timer1 = setInterval(createObstacle, 800);
 var timer2 = setInterval(setPlayer, 70);
