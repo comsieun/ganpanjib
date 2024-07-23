@@ -9,6 +9,8 @@ const leftButton = document.getElementById('leftButton');
 const rightButton = document.getElementById('rightButton');
 const stopButtonImage = document.getElementById('stopButtonImage');
 const emergencyTimer = document.getElementById('emergencyTimer');
+const gameoverMsg = document.getElementById('gameover');
+const feverMsg = document.getElementById('fever');
 
 //이미지 정의
 const playerDefaults={
@@ -385,15 +387,6 @@ objectImages.house3.src = 'img/house3.png';
 objectImages.house4.src = 'img/house4.png';
 objectImages.house5.src = 'img/house5.png';
 
-const gameMsg = {
-    gameOver: new Image(),
-    fever: new Image()
-}
-
-gameMsg.gameOver.src = 'img/gameover.png';
-gameMsg.fever.src = 'img/fever.png';
-
-
 let obstacleSpeed = 4;
 const obstacles = [];
 let gameOver = false;
@@ -417,6 +410,7 @@ const playerwidth = 130;
 const objectwidth = 70;
 const lanes = [0, 0, 0];
 const playerlanes = [0, 0, 0];
+const playerFrameTime = 2000
 
 const obstacleList = ['obstacle1', 'obstacle2', 'obstacle3'];
 const itemList = ['misfortune', 'energyDrink'];
@@ -438,6 +432,7 @@ const player = {
     lives: 3,
     items: 0,
     score: 0,
+    lastType: 'default', //default, delivery, fever, feverDelivery,getItem, hurt, retire
     type: 'default' //default, delivery, fever, feverDelivery,getItem, hurt, retire
 };
 
@@ -567,11 +562,11 @@ function handleCollision(obstacle) {
             player.lives -= 1;
             
             player.type = 'hurt'
-            playerFrame = 0
             setTimeout(()=>{
-                player.type='default'
-                playerFrame = 0
-            }, 2000)
+                if(player.lastType == 'hurt')
+                    player.type='default'
+                
+            }, playerFrameTime)
 
             if (player.lives === 0) gameOver = true;
             }
@@ -579,11 +574,10 @@ function handleCollision(obstacle) {
             if (player.lives < 3) player.lives += 1;
             
             player.type = 'getItem'
-            playerFrame = 0
             setTimeout(()=>{
-                player.type='default'
-                playerFrame = 0
-            }, 2000)
+                if(player.lastType == 'getItem')
+                    player.type='default'
+            }, playerFrameTime)
         }
         else if (obstacle.type == 'misfortune'){
             player.items += 1;
@@ -592,23 +586,21 @@ function handleCollision(obstacle) {
         else if (obstacle.type == 'house'){
             player.score += 100;
             player.type='delivery'
-            playerFrame = 0
             
             setTimeout(()=>{
-                player.type='default'
-                playerFrame = 0
-            }, 2000)
+                if(player.lastType == 'delivery')
+                    player.type='default'
+            }, playerFrameTime)
         }
     }else if(inFeverTime) {
         if (obstacle.type === 'house') {
             player.score += 500;
 
             player.type='feverDelivery'
-            playerFrame = 0
             setTimeout(()=>{
-                player.type='fever'
-                playerFrame = 0
-            }, 2000)
+                if(player.lastType == 'feverDelivery')
+                    player.type='fever'
+            }, playerFrameTime)
 
         }else if (obstacle.type == 'obstacle'){ // (피버) 장애물 파괴시 50
             player.score += 50;
@@ -619,11 +611,10 @@ function handleCollision(obstacle) {
             player.score += 300;
 
             player.type='delivery'
-            playerFrame = 0
             setTimeout(()=>{
-                player.type='default'
-                playerFrame = 0
-            }, 2000)
+                if(player.lastType == 'delivery')
+                    player.type='default'
+            }, playerFrameTime)
 
         } else {
             console.log("incorrect")
@@ -631,11 +622,10 @@ function handleCollision(obstacle) {
             if (player.lives === 0) gameOver = true;
 
             player.type = 'hurt'
-            playerFrame = 0
             setTimeout(()=>{
-                player.type='default'
-                playerFrame = 0
-            }, 2000)
+                if(player.lastType == 'hurt')
+                    player.type='default'
+            }, 1500)
         }
     }
 }
@@ -643,10 +633,10 @@ function handleCollision(obstacle) {
 // 피버타임 시작
 function startFeverTime() {
     inFeverTime = true;
-    player.items = 0;
-
     player.type = 'fever'
-    playerFrame = 0
+
+    player.items = 0;
+    feverMsg.style.display = 'block';
 
     feverTimeStartTime = Date.now(); //지금 시간 저장
     feverTimeRemaining = feverTimeDuration; //남은시간에 10000밀리초 저장
@@ -655,7 +645,7 @@ function startFeverTime() {
 
     feverTimeTimeout = setTimeout(() => {
         player.type = 'default'
-        playerFrame = 0
+        feverMsg.style.display = 'none';
 
         inFeverTime = false;
         obstacleSpeed = originalObstacleSpeed; // 원래 속도로 복원
@@ -664,6 +654,11 @@ function startFeverTime() {
 
 //플레이어 이미지 설정
 function setPlayer(){
+    console.log(player.type)
+    if(player.lastType != player.type){
+        playerFrame = 0
+        player.lastType = player.type
+    }
     if(player.type == 'default'){
         player.image = playerDefaults[`default${playerFrame}`]
         playerFrame += 1
@@ -733,9 +728,7 @@ function gameLoop() {
     if (!gameStarted || gamePaused) return;
 
     if (gameOver) {
-        ctx.fillStyle = 'black';
-        ctx.font = '48px serif';
-        ctx.fillText('Game Over', canvas.width / 2 - 120, canvas.height / 2);
+        gameoverMsg.style.display = 'block';
         return;
     }
 
@@ -743,11 +736,11 @@ function gameLoop() {
 
     if(!emergency){
         countEmergency();
-        drawFeverTimeMessage();
     }
     if(emergencyAnswerTime){
         drawAnswer(answer)
     }
+
 
     drawObstacles();
     updateObstacles();
@@ -796,25 +789,15 @@ stopButton.addEventListener('click', () => {
         if (inFeverTime) {
             feverTimeStartTime = Date.now();
             feverTimeTimeout = setTimeout(() => {
-                inFeverTime = false;
+                feverMsg.style.display = 'none';
                 player.type = 'default'
                 obstacleSpeed = originalObstacleSpeed; // 원래 속도로 복원
+                inFeverTime = false;
             }, feverTimeRemaining);
         }
         gameLoop();
     }
 });
-
-// 피버타임 메시지
-function drawFeverTimeMessage() {
-    if (inFeverTime) {
-        ctx.fillStyle = 'rgba(255, 0, 0, 0.3)'; // 반투명한 빨간 배경
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = 'white';
-        ctx.font = '48px serif';
-        ctx.fillText('Fever!', canvas.width / 2 - 50, canvas.height / 2);
-    }
-}
 
 //돌발상황 카운트
 function countEmergency(){

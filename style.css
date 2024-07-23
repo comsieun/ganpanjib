@@ -31,6 +31,26 @@ canvas {
     z-index: 2; /* 가장 위에 표시될 수 있도록 설정 */
 }
 
+#gameover {
+    display: none;
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    flex-direction: column;
+    top: 10px;
+    z-index: 2; /* 가장 위에 표시될 수 있도록 설정 */
+}
+
+#fever {
+    display: none;
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    flex-direction: column;
+    top: 10px;
+    z-index: 2; /* 가장 위에 표시될 수 있도록 설정 */
+}
+
 #startButton:active {
     background-color: #45a049;
 }
