@@ -393,16 +393,6 @@ const gameMsg = {
 gameMsg.gameOver.src = 'img/gameover.png';
 gameMsg.fever.src = 'img/fever.png';
 
-const player = {
-    width: 200,
-    height: 200,
-    speed: 5,
-    color: 'black',
-    lives: 3,
-    items: 0,
-    score: 0,
-    type: 'default' //default, delivery, fever, feverDelivery,getItem, hurt, retire
-};
 
 let obstacleSpeed = 4;
 const obstacles = [];
@@ -423,12 +413,14 @@ let tmpCount = 0;
 let answer = 0;
 let emergencyAnswerTime = false
 let playerFrame = 0
-const objectwidth = 100;
+const playerwidth = 150;
+const objectwidth = 70;
+const lanes = [0, 0, 0];
+const playerlanes = [0, 0, 0];
 
 const obstacleList = ['obstacle1', 'obstacle2', 'obstacle3'];
 const itemList = ['misfortune', 'energyDrink'];
 const houseList = ['house','house1','house2','house3','house4','house5',]
-
 const obstacleSet = [
     ['house', 'obstacle'],
     ['obstacle', 'house'], 
@@ -438,8 +430,17 @@ const obstacleSet = [
     ['misfortune'] // 불행조각 잦은 빈도를 위해..
 ];
 
-const lanes = [0, 0, 0];
-const playerlanes = [0, 0, 0];
+const player = {
+    width: playerwidth,
+    height: playerwidth,
+    speed: 5,
+    color: 'black',
+    lives: 3,
+    items: 0,
+    score: 0,
+    type: 'default' //default, delivery, fever, feverDelivery,getItem, hurt, retire
+};
+
 
 function updateCanvasSize() {
     canvas.width = 400;
