@@ -385,9 +385,17 @@ objectImages.house3.src = 'img/house3.png';
 objectImages.house4.src = 'img/house4.png';
 objectImages.house5.src = 'img/house5.png';
 
+const gameMsg = {
+    gameOver: new Image(),
+    fever: new Image()
+}
+
+gameMsg.gameOver.src = 'img/gameover.png';
+gameMsg.fever.src = 'img/fever.png';
+
 const player = {
-    width: 100,
-    height: 100,
+    width: 200,
+    height: 200,
     speed: 5,
     color: 'black',
     lives: 3,
@@ -415,7 +423,7 @@ let tmpCount = 0;
 let answer = 0;
 let emergencyAnswerTime = false
 let playerFrame = 0
-const objectwidth = 50
+const objectwidth = 100;
 
 const obstacleList = ['obstacle1', 'obstacle2', 'obstacle3'];
 const itemList = ['misfortune', 'energyDrink'];
@@ -488,8 +496,8 @@ function createObstacle() {
                 obstacles.push({
                     x: lanes[lane],
                     y: 0,
-                    width: 50,
-                    height: 50,
+                    width: objectwidth,
+                    height: objectwidth,
                     type: t,
                     image: objectImages[t]
                 });
@@ -497,8 +505,8 @@ function createObstacle() {
                 obstacles.push({
                     x: lanes[lane],
                     y: 0,
-                    width: 50,
-                    height: 50,
+                    width: objectwidth,
+                    height: objectwidth,
                     type: type,
                     image: objectImages[type]
                 });
@@ -506,16 +514,16 @@ function createObstacle() {
                 obstacles.push({
                     x: lanes[lane],
                     y: 0,
-                    width: 50,
-                    height: 50,
+                    width: objectwidth,
+                    height: objectwidth,
                     type: type[0],
                     image: objectImages[type[0] === 'obstacle' ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
                 });
                 obstacles.push({
                     x: lanes[(lane === 2) ? 0 : lane + 1],
                     y: 0,
-                    width: 50,
-                    height: 50,
+                    width: objectwidth,
+                    height: objectwidth,
                     type: type[1],
                     image: objectImages[type[1] === 'obstacle' ? obstacleList[Math.floor(Math.random() * 3)] : 'house']
                 });
@@ -608,10 +616,25 @@ function handleCollision(obstacle) {
         if (obstacle.type == 'correct'){
             console.log("correct")
             player.score += 300;
+
+            player.type='delivery'
+            playerFrame = 0
+            setTimeout(()=>{
+                player.type='default'
+                playerFrame = 0
+            }, 2000)
+
         } else {
             console.log("incorrect")
             player.lives -= 1;
             if (player.lives === 0) gameOver = true;
+
+            player.type = 'hurt'
+            playerFrame = 0
+            setTimeout(()=>{
+                player.type='default'
+                playerFrame = 0
+            }, 2000)
         }
     }
 }
@@ -682,7 +705,7 @@ function drawPlayer() {
 }
 
 function drawAnswer(answer) {
-    ctx.drawImage(objectImages[houseList[answer]], canvas.width / 2 - 25, canvas.height / 2 - 25, 50, 50);
+    ctx.drawImage(objectImages[houseList[answer]], canvas.width / 2 - objectwidth / 2, canvas.height / 2 - objectwidth/2, objectwidth, objectwidth);
 }
 
 // 오브젝트 그려줌
@@ -826,6 +849,7 @@ function startEmergency(){
     }, 7000*count)
 }
 
+// 돌발상황 세트
 function emergencySet() {
     tmpCount -= 1
     console.log("남은 count: ", tmpCount)
@@ -851,10 +875,9 @@ function emergencySet() {
         }, 1000)
     }, 2000);
 
-
-
 }
 
+// 돌발상황 오브젝트 생성
 function createEmergencyObject(answer){
     let tmp = Math.floor(Math.random() * 6)
     tmp = tmp === answer ? tmp+1 : tmp
@@ -875,24 +898,24 @@ function createEmergencyObject(answer){
     obstacles.push({    // 정답
         x: lanes[lane],
         y: 0,
-        width: 50,
-        height: 50,
+        width: objectwidth,
+        height: objectwidth,
         type: 'correct',
         image: objectImages[houseList[answer]]
     })
     obstacles.push({    // 정답 아님1
         x: lanes[(lane === 2) ? 0 : lane + 1],
         y: 0,
-        width: 50,
-        height: 50,
+        width: objectwidth,
+        height: objectwidth,
         type: 'incorrect',
         image: objectImages[houseList[a]]
     })
     obstacles.push({    // 정답 아님1
         x: lanes[(lane === 0) ? 2 : lane -1],
         y: 0,
-        width: 50,
-        height: 50,
+        width: objectwidth,
+        height: objectwidth,
         type: 'incorrect',
         image: objectImages[houseList[b]]
     })
