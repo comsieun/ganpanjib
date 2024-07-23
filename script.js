@@ -542,8 +542,8 @@ function checkCollision() {
         if (
             player.x < obstacle.x + obstacle.width &&
             player.x + player.width > obstacle.x &&
-            player.y + 10 < obstacle.y + obstacle.height &&
-            player.y + player.height > obstacle.y - 10
+            player.y + 30 < obstacle.y + obstacle.height &&
+            player.y + player.height > obstacle.y - 20
         ) {
             handleCollision(obstacle);
             obstacles.splice(index, 1);
