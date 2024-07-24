@@ -359,6 +359,249 @@ playerHurts.hurt45.src = 'img/playerHurt/New_Hurt_[00003-00050]45.png';
 playerHurts.hurt46.src = 'img/playerHurt/New_Hurt_[00003-00050]46.png';
 playerHurts.hurt47.src = 'img/playerHurt/New_Hurt_[00003-00050]47.png';
 
+const playerRetires={
+    retire0: new Image(),
+    retire1: new Image(),
+    retire2: new Image(),
+    retire3: new Image(),
+    retire4: new Image(),
+    retire5: new Image(),
+    retire6: new Image(),
+    retire7: new Image(),
+    retire8: new Image(),
+    retire9: new Image(),
+    retire10: new Image(),
+    retire11: new Image(),
+    retire12: new Image(),
+    retire13: new Image(),
+    retire14: new Image(),
+    retire15: new Image(),
+    retire16: new Image(),
+    retire17: new Image(),
+    retire18: new Image(),
+    retire19: new Image(),
+    retire20: new Image(),
+    retire21: new Image(),
+    retire22: new Image(),
+    retire23: new Image(),
+    retire24: new Image(),
+    retire25: new Image(),
+    retire26: new Image(),
+    retire27: new Image(),
+    retire28: new Image(),
+    retire29: new Image(),
+    retire30: new Image(),
+    retire31: new Image(),
+    retire32: new Image(),
+    retire33: new Image(),
+    retire34: new Image(),
+    retire35: new Image(),
+    retire36: new Image(),
+    retire37: new Image(),
+    retire38: new Image(),
+    retire39: new Image(),
+    retire40: new Image(),
+    retire41: new Image(),
+    retire42: new Image(),
+    retire43: new Image(),
+    retire44: new Image(),
+    retire45: new Image(),
+    retire46: new Image(),
+    retire47: new Image(),
+    retire48: new Image(),
+    retire49: new Image(),
+    retire50: new Image(),
+    retire51: new Image(),
+    retire52: new Image(),
+    retire53: new Image(),
+    retire54: new Image(),
+    retire55: new Image(),
+    retire56: new Image(),
+    retire57: new Image(),
+    retire58: new Image(),
+    retire59: new Image(),
+    retire60: new Image(),
+    retire61: new Image(),
+    retire62: new Image(),
+    retire63: new Image(),
+    retire64: new Image(),
+    retire65: new Image(),
+    retire66: new Image(),
+    retire67: new Image(),
+    retire68: new Image(),
+    retire69: new Image(),
+    retire70: new Image(),
+    retire71: new Image(),
+    retire72: new Image(),
+    retire73: new Image(),
+    retire74: new Image(),
+    retire75: new Image(),
+    retire76: new Image(),
+    retire77: new Image(),
+    retire78: new Image(),
+    retire79: new Image(),
+    retire80: new Image(),
+    retire81: new Image(),
+    retire82: new Image(),
+    retire83: new Image(),
+    retire84: new Image(),
+    retire85: new Image(),
+    retire86: new Image(),
+    retire87: new Image(),
+    retire88: new Image(),
+    retire89: new Image(),
+    retire90: new Image(),
+    retire91: new Image(),
+    retire92: new Image(),
+    retire93: new Image(),
+    retire94: new Image(),
+    retire95: new Image(),
+    retire96: new Image(),
+    retire97: new Image(),
+    retire98: new Image(),
+    retire99: new Image(),
+    retire100: new Image(),
+    retire101: new Image(),
+    retire102: new Image(),
+    retire103: new Image(),
+    retire104: new Image(),
+    retire105: new Image(),
+    retire106: new Image(),
+    retire107: new Image(),
+    retire108: new Image(),
+    retire109: new Image(),
+    retire110: new Image(),
+    retire111: new Image(),
+    retire112: new Image(),
+    retire113: new Image(),
+    retire114: new Image(),
+    retire115: new Image(),
+    retire116: new Image(),
+    retire117: new Image(),
+    retire118: new Image(),
+    retire119: new Image()
+}
+playerRetires.retire0.src = 'img/playerRetire/New_Retire_[00000-00119]000.png';
+playerRetires.retire1.src = 'img/playerRetire/New_Retire_[00000-00119]001.png';
+playerRetires.retire2.src = 'img/playerRetire/New_Retire_[00000-00119]002.png';
+playerRetires.retire3.src = 'img/playerRetire/New_Retire_[00000-00119]003.png';
+playerRetires.retire4.src = 'img/playerRetire/New_Retire_[00000-00119]004.png';
+playerRetires.retire5.src = 'img/playerRetire/New_Retire_[00000-00119]005.png';
+playerRetires.retire6.src = 'img/playerRetire/New_Retire_[00000-00119]006.png';
+playerRetires.retire7.src = 'img/playerRetire/New_Retire_[00000-00119]007.png';
+playerRetires.retire8.src = 'img/playerRetire/New_Retire_[00000-00119]008.png';
+playerRetires.retire9.src = 'img/playerRetire/New_Retire_[00000-00119]009.png';
+playerRetires.retire10.src = 'img/playerRetire/New_Retire_[00000-00119]010.png';
+playerRetires.retire11.src = 'img/playerRetire/New_Retire_[00000-00119]011.png';
+playerRetires.retire12.src = 'img/playerRetire/New_Retire_[00000-00119]012.png';
+playerRetires.retire13.src = 'img/playerRetire/New_Retire_[00000-00119]013.png';
+playerRetires.retire14.src = 'img/playerRetire/New_Retire_[00000-00119]014.png';
+playerRetires.retire15.src = 'img/playerRetire/New_Retire_[00000-00119]015.png';
+playerRetires.retire16.src = 'img/playerRetire/New_Retire_[00000-00119]016.png';
+playerRetires.retire17.src = 'img/playerRetire/New_Retire_[00000-00119]017.png';
+playerRetires.retire18.src = 'img/playerRetire/New_Retire_[00000-00119]018.png';
+playerRetires.retire19.src = 'img/playerRetire/New_Retire_[00000-00119]019.png';
+playerRetires.retire10.src = 'img/playerRetire/New_Retire_[00000-00119]020.png';
+playerRetires.retire11.src = 'img/playerRetire/New_Retire_[00000-00119]021.png';
+playerRetires.retire12.src = 'img/playerRetire/New_Retire_[00000-00119]022.png';
+playerRetires.retire13.src = 'img/playerRetire/New_Retire_[00000-00119]023.png';
+playerRetires.retire14.src = 'img/playerRetire/New_Retire_[00000-00119]024.png';
+playerRetires.retire15.src = 'img/playerRetire/New_Retire_[00000-00119]025.png';
+playerRetires.retire16.src = 'img/playerRetire/New_Retire_[00000-00119]026.png';
+playerRetires.retire17.src = 'img/playerRetire/New_Retire_[00000-00119]027.png';
+playerRetires.retire18.src = 'img/playerRetire/New_Retire_[00000-00119]028.png';
+playerRetires.retire19.src = 'img/playerRetire/New_Retire_[00000-00119]029.png';
+playerRetires.retire10.src = 'img/playerRetire/New_Retire_[00000-00119]030.png';
+playerRetires.retire11.src = 'img/playerRetire/New_Retire_[00000-00119]031.png';
+playerRetires.retire12.src = 'img/playerRetire/New_Retire_[00000-00119]032.png';
+playerRetires.retire13.src = 'img/playerRetire/New_Retire_[00000-00119]033.png';
+playerRetires.retire14.src = 'img/playerRetire/New_Retire_[00000-00119]034.png';
+playerRetires.retire15.src = 'img/playerRetire/New_Retire_[00000-00119]035.png';
+playerRetires.retire16.src = 'img/playerRetire/New_Retire_[00000-00119]036.png';
+playerRetires.retire17.src = 'img/playerRetire/New_Retire_[00000-00119]037.png';
+playerRetires.retire18.src = 'img/playerRetire/New_Retire_[00000-00119]038.png';
+playerRetires.retire19.src = 'img/playerRetire/New_Retire_[00000-00119]039.png';
+playerRetires.retire10.src = 'img/playerRetire/New_Retire_[00000-00119]040.png';
+playerRetires.retire11.src = 'img/playerRetire/New_Retire_[00000-00119]041.png';
+playerRetires.retire12.src = 'img/playerRetire/New_Retire_[00000-00119]042.png';
+playerRetires.retire13.src = 'img/playerRetire/New_Retire_[00000-00119]043.png';
+playerRetires.retire14.src = 'img/playerRetire/New_Retire_[00000-00119]044.png';
+playerRetires.retire15.src = 'img/playerRetire/New_Retire_[00000-00119]045.png';
+playerRetires.retire16.src = 'img/playerRetire/New_Retire_[00000-00119]046.png';
+playerRetires.retire17.src = 'img/playerRetire/New_Retire_[00000-00119]047.png';
+playerRetires.retire18.src = 'img/playerRetire/New_Retire_[00000-00119]048.png';
+playerRetires.retire19.src = 'img/playerRetire/New_Retire_[00000-00119]049.png';
+playerRetires.retire10.src = 'img/playerRetire/New_Retire_[00000-00119]050.png';
+playerRetires.retire11.src = 'img/playerRetire/New_Retire_[00000-00119]051.png';
+playerRetires.retire12.src = 'img/playerRetire/New_Retire_[00000-00119]052.png';
+playerRetires.retire13.src = 'img/playerRetire/New_Retire_[00000-00119]053.png';
+playerRetires.retire14.src = 'img/playerRetire/New_Retire_[00000-00119]054.png';
+playerRetires.retire15.src = 'img/playerRetire/New_Retire_[00000-00119]055.png';
+playerRetires.retire16.src = 'img/playerRetire/New_Retire_[00000-00119]056.png';
+playerRetires.retire17.src = 'img/playerRetire/New_Retire_[00000-00119]057.png';
+playerRetires.retire18.src = 'img/playerRetire/New_Retire_[00000-00119]058.png';
+playerRetires.retire19.src = 'img/playerRetire/New_Retire_[00000-00119]059.png';
+playerRetires.retire10.src = 'img/playerRetire/New_Retire_[00000-00119]060.png';
+playerRetires.retire11.src = 'img/playerRetire/New_Retire_[00000-00119]061.png';
+playerRetires.retire12.src = 'img/playerRetire/New_Retire_[00000-00119]062.png';
+playerRetires.retire13.src = 'img/playerRetire/New_Retire_[00000-00119]063.png';
+playerRetires.retire14.src = 'img/playerRetire/New_Retire_[00000-00119]064.png';
+playerRetires.retire15.src = 'img/playerRetire/New_Retire_[00000-00119]065.png';
+playerRetires.retire16.src = 'img/playerRetire/New_Retire_[00000-00119]066.png';
+playerRetires.retire17.src = 'img/playerRetire/New_Retire_[00000-00119]067.png';
+playerRetires.retire18.src = 'img/playerRetire/New_Retire_[00000-00119]068.png';
+playerRetires.retire19.src = 'img/playerRetire/New_Retire_[00000-00119]069.png';
+playerRetires.retire10.src = 'img/playerRetire/New_Retire_[00000-00119]070.png';
+playerRetires.retire11.src = 'img/playerRetire/New_Retire_[00000-00119]071.png';
+playerRetires.retire12.src = 'img/playerRetire/New_Retire_[00000-00119]072.png';
+playerRetires.retire13.src = 'img/playerRetire/New_Retire_[00000-00119]073.png';
+playerRetires.retire14.src = 'img/playerRetire/New_Retire_[00000-00119]074.png';
+playerRetires.retire15.src = 'img/playerRetire/New_Retire_[00000-00119]075.png';
+playerRetires.retire16.src = 'img/playerRetire/New_Retire_[00000-00119]076.png';
+playerRetires.retire17.src = 'img/playerRetire/New_Retire_[00000-00119]077.png';
+playerRetires.retire18.src = 'img/playerRetire/New_Retire_[00000-00119]078.png';
+playerRetires.retire19.src = 'img/playerRetire/New_Retire_[00000-00119]079.png';
+playerRetires.retire10.src = 'img/playerRetire/New_Retire_[00000-00119]080.png';
+playerRetires.retire11.src = 'img/playerRetire/New_Retire_[00000-00119]081.png';
+playerRetires.retire12.src = 'img/playerRetire/New_Retire_[00000-00119]082.png';
+playerRetires.retire13.src = 'img/playerRetire/New_Retire_[00000-00119]083.png';
+playerRetires.retire14.src = 'img/playerRetire/New_Retire_[00000-00119]084.png';
+playerRetires.retire15.src = 'img/playerRetire/New_Retire_[00000-00119]085.png';
+playerRetires.retire16.src = 'img/playerRetire/New_Retire_[00000-00119]086.png';
+playerRetires.retire17.src = 'img/playerRetire/New_Retire_[00000-00119]087.png';
+playerRetires.retire18.src = 'img/playerRetire/New_Retire_[00000-00119]088.png';
+playerRetires.retire19.src = 'img/playerRetire/New_Retire_[00000-00119]089.png';
+playerRetires.retire10.src = 'img/playerRetire/New_Retire_[00000-00119]090.png';
+playerRetires.retire11.src = 'img/playerRetire/New_Retire_[00000-00119]091.png';
+playerRetires.retire12.src = 'img/playerRetire/New_Retire_[00000-00119]092.png';
+playerRetires.retire13.src = 'img/playerRetire/New_Retire_[00000-00119]093.png';
+playerRetires.retire14.src = 'img/playerRetire/New_Retire_[00000-00119]094.png';
+playerRetires.retire15.src = 'img/playerRetire/New_Retire_[00000-00119]095.png';
+playerRetires.retire16.src = 'img/playerRetire/New_Retire_[00000-00119]096.png';
+playerRetires.retire17.src = 'img/playerRetire/New_Retire_[00000-00119]097.png';
+playerRetires.retire18.src = 'img/playerRetire/New_Retire_[00000-00119]098.png';
+playerRetires.retire19.src = 'img/playerRetire/New_Retire_[00000-00119]099.png';
+playerRetires.retire10.src = 'img/playerRetire/New_Retire_[00000-00119]100.png';
+playerRetires.retire11.src = 'img/playerRetire/New_Retire_[00000-00119]101.png';
+playerRetires.retire12.src = 'img/playerRetire/New_Retire_[00000-00119]102.png';
+playerRetires.retire13.src = 'img/playerRetire/New_Retire_[00000-00119]103.png';
+playerRetires.retire14.src = 'img/playerRetire/New_Retire_[00000-00119]104.png';
+playerRetires.retire15.src = 'img/playerRetire/New_Retire_[00000-00119]105.png';
+playerRetires.retire16.src = 'img/playerRetire/New_Retire_[00000-00119]106.png';
+playerRetires.retire17.src = 'img/playerRetire/New_Retire_[00000-00119]107.png';
+playerRetires.retire18.src = 'img/playerRetire/New_Retire_[00000-00119]108.png';
+playerRetires.retire19.src = 'img/playerRetire/New_Retire_[00000-00119]109.png';
+playerRetires.retire10.src = 'img/playerRetire/New_Retire_[00000-00119]110.png';
+playerRetires.retire11.src = 'img/playerRetire/New_Retire_[00000-00119]111.png';
+playerRetires.retire12.src = 'img/playerRetire/New_Retire_[00000-00119]112.png';
+playerRetires.retire13.src = 'img/playerRetire/New_Retire_[00000-00119]113.png';
+playerRetires.retire14.src = 'img/playerRetire/New_Retire_[00000-00119]114.png';
+playerRetires.retire15.src = 'img/playerRetire/New_Retire_[00000-00119]115.png';
+playerRetires.retire16.src = 'img/playerRetire/New_Retire_[00000-00119]116.png';
+playerRetires.retire17.src = 'img/playerRetire/New_Retire_[00000-00119]117.png';
+playerRetires.retire18.src = 'img/playerRetire/New_Retire_[00000-00119]118.png';
+playerRetires.retire19.src = 'img/playerRetire/New_Retire_[00000-00119]119.png';
+
 const objectImages = {
     obstacle1: new Image(),
     obstacle2: new Image(),
@@ -451,8 +694,6 @@ const obstacleSet = [
     ['misfortune'] // 불행조각 잦은 빈도를 위해..
 ];
 
-
-
 const player = {
     width: playerwidth,
     height: playerwidth,
@@ -464,7 +705,6 @@ const player = {
     lastType: 'default', //default, delivery, fever, feverDelivery,getItem, hurt, retire
     type: 'default' //default, delivery, fever, feverDelivery,getItem, hurt, retire
 };
-
 
 function updateCanvasSize() {
     canvas.width = 400;
@@ -722,6 +962,9 @@ function setPlayer(){
         playerFrame += 1
         if(playerFrame >= 17)
             playerFrame = 0
+    }else if(player.type =='retire'){
+        player.image = playerRetires[`retire${playerFrame}`]
+        playerFrame += 1
     }
 }
 // 플레이어 그려줌
@@ -785,6 +1028,8 @@ function gameLoop() {
 
     if (gameOver) {
         gameoverMsg.style.display = 'block';
+        player.type = 'retire'
+        retired()
         return;
     }
 
@@ -797,7 +1042,6 @@ function gameLoop() {
         drawAnswer(answer)
     }
 
-
     drawObstacles();
     updateObstacles();
     checkCollision();
@@ -805,6 +1049,16 @@ function gameLoop() {
     updateInfo();
 
     requestAnimationFrame(gameLoop); 
+}
+
+function retired() {
+    if(playerFrame >= 120) return;
+    else{
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    updateInfo();
+    drawPlayer()
+    requestAnimationFrame(retired); 
+    }
 }
 
 // 게임 시작
@@ -857,8 +1111,6 @@ function countEmergency(){
         emergencyCount = 60
         // console.log("돌발 상황 시작")
         startEmergency()
-    } else{
-        emergencyTimer.textContent = `돌발 상황이 일어나기까지... ${emergencyCount}초`;
     }
 }
 
