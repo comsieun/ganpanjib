@@ -812,7 +812,6 @@ startButton.addEventListener('click', () => {
     gameStarted = true;
     gamePaused = false;
     startButton.style.display = 'none';
-    emergencyTimer.style.display = 'block';
     player.lives = 3;
     player.items = 0;
     player.score = 0;
@@ -855,7 +854,6 @@ stopButton.addEventListener('click', () => {
 //돌발상황 카운트
 function countEmergency(){
     if(emergencyCount < 0){
-        emergencyTimer.style.display = 'none';
         emergencyCount = 60
         // console.log("돌발 상황 시작")
         startEmergency()
@@ -881,7 +879,6 @@ function startEmergency(){
     setTimeout(() => {
         emergency = !emergency // false
         emergencyCount = 30     //돌발상황 카운트 (기본값: 30)
-        emergencyTimer.style.display = 'block';
         // console.log("돌발 상황 끝")
     }, 7000*count)
 }
