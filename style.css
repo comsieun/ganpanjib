@@ -16,7 +16,10 @@ canvas {
     height: 600px;
     display: block;
     border: 1px solid black;
+    font-family: "Bagel Fat One", system-ui;
 }
+
+  
 #startButton {
     position: absolute;
     top: 50%; /* 가장 위에 위치하도록 수정 */
@@ -34,10 +37,10 @@ canvas {
 #gameover {
     display: none;
     position: absolute;
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
     flex-direction: column;
-    top: 10px;
+    top: 50px;
     z-index: 2; /* 가장 위에 표시될 수 있도록 설정 */
 }
 
@@ -59,18 +62,6 @@ canvas {
     font-size: 20px;
     color: black;
     display: none;
-}
-#infoLives {
-    top: 10px;
-    left: 10px;
-}
-#infoItems {
-    top: 40px;
-    left: 10px;
-}
-#infoScore {
-    top: 70px;
-    left: 10px;
 }
 #emergencyTimer{
     top: 100px;

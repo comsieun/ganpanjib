@@ -2,9 +2,6 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const startButton = document.getElementById('startButton');
 const stopButton = document.getElementById('stopButton');
-const infoLives = document.getElementById('infoLives');
-const infoItems = document.getElementById('infoItems');
-const infoScore = document.getElementById('infoScore');
 const leftButton = document.getElementById('leftButton');
 const rightButton = document.getElementById('rightButton');
 const stopButtonImage = document.getElementById('stopButtonImage');
@@ -388,7 +385,35 @@ objectImages.house4.src = 'img/house4.png';
 objectImages.house5.src = 'img/house5.png';
 
 const frameImg = new Image();
+const frameText = new Image();
 frameImg.src = 'img/frame.png';
+frameText.src = 'img/frameText.png';
+
+const heart = new Image();
+const emptyheart= new Image();
+const scoreBackground = new Image();
+const misfortuneBackground = new Image();
+
+heart.src = 'img/heart.png';
+emptyheart.src = 'img/heartEmpty.png';
+scoreBackground.src = 'img/scoreBackground.png';
+misfortuneBackground.src = 'img/misfortuneBackground.png';
+
+const heartwidth = 40
+
+const misfortunewidth = 77
+const misfortuneheigh = 70
+
+const scorewidth = 152
+const scoreheigh = 60
+
+const playerwidth = 130;
+const objectwidth = 70;
+
+const frameWidth = objectwidth+70
+const frameTextWidth = 200
+const frameTextHeigh = 40
+const answerWidth = objectwidth+20
 
 let obstacleSpeed = 4;
 const obstacles = [];
@@ -409,8 +434,7 @@ let tmpCount = 0;
 let answer = 0;
 let emergencyAnswerTime = false
 let playerFrame = 0
-const playerwidth = 130;
-const objectwidth = 70;
+
 const lanes = [0, 0, 0];
 const playerlanes = [0, 0, 0];
 const playerFrameTime = 2000
@@ -426,6 +450,8 @@ const obstacleSet = [
     ['item'],
     ['misfortune'] // 불행조각 잦은 빈도를 위해..
 ];
+
+
 
 const player = {
     width: playerwidth,
@@ -703,9 +729,12 @@ function drawPlayer() {
     ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
 }
 
+
+
 function drawAnswer(answer) {
-    ctx.drawImage(frameImg, canvas.width / 2 - objectwidth / 2, canvas.height / 2 - objectwidth/2, objectwidth, objectwidth);
-    ctx.drawImage(objectImages[houseList[answer]], canvas.width / 2 - objectwidth / 2, canvas.height / 2 - objectwidth/2, objectwidth, objectwidth);
+    ctx.drawImage(frameText, canvas.width / 2 - frameTextWidth/2 , canvas.height / 2 -( frameWidth/2 +frameTextHeigh*1.5), frameTextWidth, frameTextHeigh);
+    ctx.drawImage(frameImg, canvas.width / 2 - frameWidth/2 , canvas.height / 2 - frameWidth/2, frameWidth, frameWidth);
+    ctx.drawImage(objectImages[houseList[answer]], canvas.width / 2 - answerWidth / 2, canvas.height / 2 - answerWidth/2, answerWidth, answerWidth);
 
 }
 
@@ -723,9 +752,31 @@ function drawObstacles() {
 
 // 아이템 메세지 그려줌
 function updateInfo() {
-    infoLives.textContent = `생명력: ${player.lives}`;
-    infoItems.textContent = `불행조각: ${player.items}`;
-    infoScore.textContent = `점수: ${player.score}`;
+    if(player.lives==0){
+        ctx.drawImage(emptyheart, canvas.width / 2 - heartwidth/2 - heartwidth , scoreheigh , heartwidth, heartwidth);
+        ctx.drawImage(emptyheart, canvas.width / 2 - heartwidth/2 , scoreheigh , heartwidth, heartwidth);
+        ctx.drawImage(emptyheart, canvas.width / 2 - heartwidth/2 + heartwidth, scoreheigh , heartwidth, heartwidth);
+    }else if(player.lives==1){
+        ctx.drawImage(heart, canvas.width / 2 - heartwidth/2 - heartwidth , scoreheigh , heartwidth, heartwidth);
+        ctx.drawImage(emptyheart, canvas.width / 2 - heartwidth/2 , scoreheigh , heartwidth, heartwidth);
+        ctx.drawImage(emptyheart, canvas.width / 2 - heartwidth/2 + heartwidth, scoreheigh , heartwidth, heartwidth);
+    }else if(player.lives==2){
+        ctx.drawImage(heart, canvas.width / 2 - heartwidth/2 - heartwidth , scoreheigh , heartwidth, heartwidth);
+        ctx.drawImage(heart, canvas.width / 2 - heartwidth/2 , scoreheigh , heartwidth, heartwidth);
+        ctx.drawImage(emptyheart, canvas.width / 2 - heartwidth/2 + heartwidth, scoreheigh , heartwidth, heartwidth);
+    }else if(player.lives==3){
+        ctx.drawImage(heart, canvas.width / 2 - heartwidth/2 - heartwidth , scoreheigh , heartwidth, heartwidth);
+        ctx.drawImage(heart, canvas.width / 2 - heartwidth/2 , scoreheigh , heartwidth, heartwidth);
+        ctx.drawImage(heart, canvas.width / 2 - heartwidth/2 + heartwidth, scoreheigh , heartwidth, heartwidth);
+    }
+
+    ctx.drawImage(scoreBackground, canvas.width / 2 - scorewidth/2, 0 , scorewidth, scoreheigh);
+    ctx.drawImage(misfortuneBackground, 10, 10 , misfortunewidth, misfortuneheigh);
+
+    ctx.font = '20px Bagel Fat One';
+    ctx.textAlign = "center"
+    ctx.fillText(`${player.items}`, 10+misfortunewidth/2, 20+misfortuneheigh/2);
+    ctx.fillText(`${player.score}`, canvas.width / 2 , 5+scoreheigh / 2);
 }
 
 //기본 실행 함수
@@ -761,9 +812,6 @@ startButton.addEventListener('click', () => {
     gameStarted = true;
     gamePaused = false;
     startButton.style.display = 'none';
-    infoLives.style.display = 'block';
-    infoItems.style.display = 'block';
-    infoScore.style.display = 'block';
     emergencyTimer.style.display = 'block';
     player.lives = 3;
     player.items = 0;
