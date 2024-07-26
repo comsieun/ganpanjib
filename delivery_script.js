@@ -1220,4 +1220,4 @@ function retired() {
 }
 
 var timer1 = setInterval(createObstacle, 800);
-var timer2 = setInterval(setPlayer, 100);
+var timer2 = setInterval(setPlayer, 70);

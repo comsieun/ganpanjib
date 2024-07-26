@@ -9,48 +9,90 @@
     <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap" rel="stylesheet">
     <style>
         body{
-            background-image: url(img/level1.png);
-            background-repeat: no-repeat;
-            background-size : cover;
+            margin: 0;
             font-family: "Bagel Fat One", system-ui;
-            color: white;
             font-size: 20px;
-        }
-        footer{
-            position: absolute;
-            bottom: 10px;
             display: flex;
-            align-items: center;
-            left:12%
+            color: white;
+            justify-content: center;
         }
-        #logo{
-            width: 40%;
+        @media (max-width: 700px) {
+            #background{
+                position: absolute;
+                width: 100%;
+            }
+            footer{
+                position: absolute;
+                bottom: 10px;
+                display: flex;
+                align-items: center;
+                left:12%
+            }
+            #logo{
+                width: 150px;
+            }
+            #restart{
+                width: 70px;
+            }
+            #share{
+                width: 70px;
+            }
+            #houseCountId{
+                position: absolute;
+                top: 71%;
+                left: 26%;
+            }
+            #scoreId{
+                position: absolute;
+                top: 71%;
+                left: 68%;
+            }
         }
-        #restart{
-            width: 20%;
-        }
-        #share{
-            width: 20%;
-        }
-        #houseCountId{
-            position: absolute;
-            top: 78%;
-            left: 26%;
-        }
-        #scoreId{
-            position: absolute;
-            top: 78%;
-            left: 68%;
+
+        @media (min-width: 700px) {
+            #background {
+                max-width: 428px; /* 화면 너비가 768px 이하인 경우 이미지 최대 너비를 500px로 조정 */
+            }
+            footer{
+                position: absolute;
+                bottom: 40px;
+                display: flex;
+                align-items: center;
+            }
+            #logo{
+                width: 150px;
+            }
+            #restart{
+                width: 75px;
+            }
+            #share{
+                width: 75px;
+            }
+            #houseCountId{
+                position: absolute;
+                margin-right: 185px;
+                top: 71%;
+            }
+            #scoreId{
+                position: absolute;
+                top: 71%;
+                margin-left: 195px;
+            }
         }
     </style>
 
 </head>
-<body id="body">
+<img src="img/level1.png" id="background" class="responsive-image">
+<body>
         <div id="houseCountId"></div>
         <div id="scoreId"></div>
         <footer>
-            <img src="img/mainlogo.png" id="logo">
-            <img src="img/restart.png" id="restart">
+            <a href="index.html">
+                <img src="img/mainlogo.png" id="logo">
+            </a>
+            <a href="delivery_game.html">
+                <img src="img/restart.png" id="restart">
+            </a>
             <img src="img/share.png" id="share">
         </footer>
 </body>
@@ -63,7 +105,7 @@
 
     const houseCountId = document.getElementById('houseCountId');
     const scoreId = document.getElementById('scoreId');
-    const body = document.getElementById('body');
+    const background = document.getElementById('background');
 
     var houseCount = localStorage.getItem("houseCount");
     var score = localStorage.getItem("score");
@@ -72,15 +114,15 @@
     scoreId.innerText = score
 
     if(level1<score && score<level2){
-        body.style.backgroundImage="url(img/level1.png)"
+        background.src="img/level1.png"
     }else if(level2<score && score<level3){
-        body.style.backgroundImage="url(img/level2.png)"
+        background.src="img/level2.png"
     }else if(level3<score && score<level4){
-        body.style.backgroundImage="url(img/level3.png)"
+        background.src="img/level3.png"
     }else if(level4<score && score<level5){
-        body.style.backgroundImage="url(img/level4.png)"
+        background.src="img/level4.png"
     }else if(level5<score){
-        body.style.backgroundImage="url(img/level5.png)"
+        background.src="img/level5.png"
     }
 </script>
 </html>
