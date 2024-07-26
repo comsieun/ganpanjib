@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .background-container {
+            position: relative;
+            width: 100%;
+            max-width: 375px;
+            height: 100%;
+            max-height: 812px;
+            background: url('imgMain/in.png') no-repeat center center;
+            background-size: cover;
+        }
+
+        @media screen and (min-width: 376px) {
+            .background-container {
+                width: 375px;
+                height: 812px;
+            }
+        }
+
+        .button {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .button img {
+            display: block;
+            height: 180px;
+            width: auto;
+        }
+
+        @keyframes bobbing1 {
+            0%, 100% {
+                transform: rotate(-2deg);
+            }
+            50% {
+                transform: rotate(2deg);
+            }
+        }
+
+        .button1 {
+            top: 40%;
+            left: 22%;
+            transform: translate(-50%, -50%) rotate(-3deg);
+            animation: bobbing1 2s infinite ease-in-out;
+        }
+
+        .frame {
+            display: none;
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 900px;
+            padding: 220px 120px 100px 130px;
+            background: url('imgMain/framebox.png') no-repeat center center;
+            background-size: contain;
+            text-align: center;
+            color: rgb(29, 0, 37);
+        }
+
+        .frame p {
+            margin: 0;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .play-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+        }
+
+        .play-button img {
+            height: 40px;
+            width: auto;
+        }
+
+        .overlay-image {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 150%;
+            max-height: 100%;
+        }
+
+        .image-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none; /* 처음에는 보이지 않도록 설정 */
+        }
+
+        .image-container img {
+            display: none;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .nav-button {
+            position: absolute;
+            cursor: pointer;
+            display: none; /* 처음에는 보이지 않도록 설정 */
+        }
+
+        .nav-button img {
+            width: 40px;
+            height: auto;
+        }
+
+        .up-button {
+            top: 20%;
+            left: 40%;
+            transform: translateX(-50%);
+            transform: translateX(50%) rotate(-90deg);
+        }
+
+        .down-button {
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%) rotate(90deg);
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+
+        .back-button {
+            top: 11%;
+            left: 2%;
+        }
+        .back-button img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container" id="backgroundContainer">
+        <div class="frame-container">
+            <div class="button button1" id="boxButton" onclick="showFrame()">
+                <img src="imgMain/box.png" alt="s1">
+            </div>
+        </div>
+        <div class="frame" id="textFrame">
+            <p>머피스 컴퍼니에서 개발한 </p><p>사소한 불행 아이템들이 들어있어!</p>
+            <div class="play-button" onclick="showOverlayImage()">
+                <img src="imgMain/play.png" alt="Play Button">
+            </div>
+        </div>
+        <img src="imgMain/boxin.png" alt="Overlay Image" id="overlayImage" class="overlay-image">
+        <div class="image-container" id="imageContainer">
+            <img src="imgMain/image1.png" alt="Image 1" class="slide-image" id="image1">
+            <img src="imgMain/image2.png" alt="Image 2" class="slide-image" id="image2">
+            <img src="imgMain/image3.png" alt="Image 3" class="slide-image" id="image3">
+            <img src="imgMain/image4.png" alt="Image 4" class="slide-image" id="image4">
+            <img src="imgMain/image5.png" alt="Image 5" class="slide-image" id="image5">
+            <img src="imgMain/image6.png" alt="Image 6" class="slide-image" id="image6">
+            <img src="imgMain/image7.png" alt="Image 7" class="slide-image" id="image7">
+            <img src="imgMain/image8.png" alt="Image 8" class="slide-image" id="image8">
+            <img src="imgMain/image9.png" alt="Image 9" class="slide-image" id="image9">
+            <img src="imgMain/image10.png" alt="Image 10" class="slide-image" id="image10">
+            <img src="imgMain/image11.png" alt="Image 11" class="slide-image" id="image11">
+            <img src="imgMain/image12.png" alt="Image 12" class="slide-image" id="image12">
+            <img src="imgMain/image13.png" alt="Image 13" class="slide-image" id="image13">
+            <img src="imgMain/image14.png" alt="Image 14" class="slide-image" id="image14">
+            <img src="imgMain/image15.png" alt="Image 15" class="slide-image" id="image15">
+            <img src="imgMain/image16.png" alt="Image 16" class="slide-image" id="image16">
+            
+            <!-- Add more images up to image16.png -->
+        </div>
+        <div class="nav-button up-button" onclick="showPreviousImage()">
+            <img src="imgMain/up.png" alt="Up Button">
+        </div>
+        <div class="nav-button down-button" onclick="showNextImage()">
+            <img src="imgMain/down.png" alt="Down Button">
+        </div>
+        <div class="back-button" id="pageBackButton" onclick="goToIndex()">
+            <img src="imgMain/back.png" alt="Back Button">
+        </div>
+        <div class="back-button" id="frameBackButton" onclick="goBack()" style="display: none;">
+            <img src="imgMain/back.png" alt="Back Button">
+        </div>
+    </div>
+
+    <script>
+        let currentImageIndex = 0;
+        const images = document.querySelectorAll('.slide-image');
+
+        function showFrame() {
+            document.getElementById('textFrame').style.display = 'block';
+            document.getElementById('boxButton').style.display = 'none';
+            document.getElementById('frameBackButton').style.display = 'block';
+        }
+
+        function showOverlayImage() {
+            document.getElementById('textFrame').style.display = 'none';
+            document.getElementById('overlayImage').style.display = 'block';
+            document.querySelector('.nav-button.up-button').style.display = 'block';
+            document.querySelector('.nav-button.down-button').style.display = 'block';
+            document.getElementById('imageContainer').style.display = 'flex';
+            showImage(0);
+        }
+
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.style.display = i === index ? 'block' : 'none';
+            });
+        }
+
+        function showPreviousImage() {
+            currentImageIndex = (currentImageIndex === 0) ? images.length - 1 : currentImageIndex - 1;
+            showImage(currentImageIndex);
+        }
+
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex === images.length - 1) ? 0 : currentImageIndex + 1;
+            showImage(currentImageIndex);
+        }
+
+        function goBack() {
+            document.getElementById('overlayImage').style.display = 'none';
+            document.getElementById('textFrame').style.display = 'none';
+            document.getElementById('boxButton').style.display = 'block';
+            document.getElementById('imageContainer').style.display = 'none';
+            document.querySelector('.nav-button.up-button').style.display = 'none';
+            document.querySelector('.nav-button.down-button').style.display = 'none';
+            document.getElementById('frameBackButton').style.display = 'none';
+        }
+
+        function goToIndex() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
