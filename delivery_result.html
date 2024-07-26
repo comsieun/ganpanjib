@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-image: '';
+        }
+        footer{
+            display: flex;
+            align-items: center;
+        }
+        footer *{
+            height: 100px;
+        }
+    </style>
+
+</head>
+<body>
+        <div id="houseCountId"></div>
+        <div id="scoreId"></div>
+        <footer>
+            <img src="img/mainlogo.png">
+            <img src="img/restart.png">
+            <img src="img/share.png">
+        </footer>
+</body>
+<script>
+    const houseCountId = document.getElementById('houseCountId');
+    const scoreId = document.getElementById('scoreId');
+
+    var houseCount = localStorage.getItem("houseCount");
+    var score = localStorage.getItem("score");
+
+    houseCountId.innerHTML = `집 개수: ${houseCount}`
+    scoreId.innerText = `점수: ${score}`
+</script>
+</html>
