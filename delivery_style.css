@@ -13,6 +13,7 @@ body, html {
 }
 canvas {
     min-width: 375;
+    border: 1px solid black;
     max-height: 812;
     display: block;
     font-family: "Bagel Fat One", system-ui;

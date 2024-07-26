@@ -973,7 +973,6 @@ function setPlayer(){
 }
 // 플레이어 그려줌
 function drawPlayer() {
-    console.log("잘그리는중:", player.image, player.x, player.y, player.width, player.height)
     ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
 }
 
