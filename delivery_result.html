@@ -4,21 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap" rel="stylesheet">
     <style>
         body{
-            background-image: '';
+            background-image: url(img/level1.png);
+            background-repeat: no-repeat;
+            background-size : cover;
+            font-family: "Bagel Fat One", system-ui;
+            color: white;
+            font-size: 20px;
         }
         footer{
+            position: absolute;
+            bottom: 0px;
             display: flex;
             align-items: center;
+            left:10%
         }
         footer *{
-            height: 100px;
+            height: 70px;
+        }
+        #houseCountId{
+            position: absolute;
+            top: 78%;
+            left: 26%;
+        }
+        #scoreId{
+            position: absolute;
+            top: 78%;
+            left: 68%;
         }
     </style>
 
 </head>
-<body>
+<body id="body">
         <div id="houseCountId"></div>
         <div id="scoreId"></div>
         <footer>
@@ -28,13 +49,32 @@
         </footer>
 </body>
 <script>
+    const level1 = 0
+    const level2 = 3000
+    const level3 = 10000
+    const level4 = 25000
+    const level5 = 50000
+
     const houseCountId = document.getElementById('houseCountId');
     const scoreId = document.getElementById('scoreId');
+    const body = document.getElementById('body');
 
     var houseCount = localStorage.getItem("houseCount");
     var score = localStorage.getItem("score");
 
-    houseCountId.innerHTML = `집 개수: ${houseCount}`
-    scoreId.innerText = `점수: ${score}`
+    houseCountId.innerHTML = houseCount
+    scoreId.innerText = score
+
+    if(level1<score && score<level2){
+        body.style.backgroundImage="url(img/level1.png)"
+    }else if(level2<score && score<level3){
+        body.style.backgroundImage="url(img/level2.png)"
+    }else if(level3<score && score<level4){
+        body.style.backgroundImage="url(img/level3.png)"
+    }else if(level4<score && score<level5){
+        body.style.backgroundImage="url(img/level4.png)"
+    }else if(level5<score){
+        body.style.backgroundImage="url(img/level5.png)"
+    }
 </script>
 </html>
