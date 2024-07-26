@@ -8,13 +8,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap" rel="stylesheet">
     <style>
-        body{
-            margin: 0;
+
+
+
+        body, html{
+
             font-family: "Bagel Fat One", system-ui;
             font-size: 20px;
-            display: flex;
             color: white;
+            
+            height: 100%;
+            margin: 0;
+            display: flex;
             justify-content: center;
+            align-items: center;
+            overflow: hidden; /* 스크롤 방지 */
         }
         @media (max-width: 700px) {
             #background{
@@ -51,11 +59,12 @@
 
         @media (min-width: 700px) {
             #background {
-                max-width: 428px; /* 화면 너비가 768px 이하인 경우 이미지 최대 너비를 500px로 조정 */
-            }
+                max-width: 375px; /* 화면 너비가 768px 이하인 경우 이미지 최대 너비를 500px로 조정 */
+                max-height: 812px; /* 모바일 기준 높이 */
+        }
             footer{
+                margin-top: 550px;
                 position: absolute;
-                bottom: 40px;
                 display: flex;
                 align-items: center;
             }
@@ -70,13 +79,13 @@
             }
             #houseCountId{
                 position: absolute;
-                margin-right: 185px;
-                top: 71%;
+                margin-top: 310px;                
+                margin-right: 165px;
             }
             #scoreId{
                 position: absolute;
-                top: 71%;
-                margin-left: 195px;
+                margin-top: 310px;                
+                margin-left: 175px;
             }
         }
     </style>
