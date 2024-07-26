@@ -12,7 +12,7 @@ body, html {
     background-color: #f0f0f0;
 }
 canvas {
-    max-width: 375;
+    min-width: 375;
     max-height: 812;
     display: block;
     font-family: "Bagel Fat One", system-ui;
@@ -20,14 +20,11 @@ canvas {
 
   
 #startButton {
+    width: 200px;
+    height: 200px;
     position: absolute;
-    top: 50%; /* 가장 위에 위치하도록 수정 */
     left: 50%;
     transform: translateX(-50%);
-    padding: 20px 40px;
-    font-size: 24px;
-    background-color: #4CAF50;
-    color: white;
     border: none;
     cursor: pointer;
     z-index: 2; /* 가장 위에 표시될 수 있도록 설정 */
