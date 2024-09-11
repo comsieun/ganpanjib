@@ -1,0 +1,174 @@
+*{
+    touch-action:none;
+}
+body, html {
+
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+/* 작은버전 */
+@media (max-width: 500px) { 
+    canvas {
+        min-width: 375px;
+        max-height: 812px;
+
+        width: 100%;
+        height: 100%;
+    
+        border: 1px solid rgba(0, 0, 0, 0);
+        display: block;
+        font-family: "Bagel Fat One", system-ui;
+    }
+
+    #loading {
+        width: 100%;
+
+        max-height: 812px;
+        min-width: 375px;
+        
+    
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        border: none;
+        cursor: pointer;
+        z-index: 3; /* 가장 위에 표시될 수 있도록 설정 */
+    }
+}
+
+@media (min-width: 501px) {
+    canvas {
+        width: 375px;
+        height: 100%;
+        
+        max-height: 812px;
+    
+        border: 1px solid rgba(0, 0, 0, 0);
+        display: block;
+        font-family: "Bagel Fat One", system-ui;
+    }
+
+    #loading {
+        width: 375px;
+        height: 812px;
+    
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        border: none;
+        cursor: pointer;
+        z-index: 3; /* 가장 위에 표시될 수 있도록 설정 */
+    }
+}
+
+#gameover {
+    display: none;
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    flex-direction: column;
+    top: 20%;
+    z-index: 2; /* 가장 위에 표시될 수 있도록 설정 */
+}
+
+#fever {
+    display: none;
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    flex-direction: column;
+    top: 20%;
+    z-index: 2; /* 가장 위에 표시될 수 있도록 설정 */
+}
+
+.info {
+    position: absolute;
+    font-size: 20px;
+    color: black;
+    display: none;
+}
+#emergencyTimer{
+    top: 100px;
+    left: 10px;
+}
+.direction-button {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: transparent;
+    opacity: 1;
+    border: none;
+    cursor: pointer;
+    z-index: 3;
+    -webkit-tap-highlight-color : rgba(0,0,0,0);
+}
+.direction-button:focus{
+    outline: none;
+}
+#leftButton {
+    left: 0;
+}
+#rightButton {
+    right: 0;
+}
+
+#stopButtonImage {
+    width: 100%;
+    height: 100%;
+}
+
+#stopButtonImage {
+    display: none;
+    margin: 0;
+}
+
+#stopButton {
+    width: 100px;
+    height: 100px;
+    z-index: 4;
+}
+
+@media (max-width: 500px) {
+    #stopButton {
+        top: 20px;
+        margin: 0 0 0 260px;
+        position: absolute;
+        border: none;
+        cursor: pointer;
+        background: none; /* 배경 이미지를 제거 */
+        padding: 0; /* 추가된 여백을 제거 */
+    }
+}
+
+@media (min-width: 501px) {
+    @media  (max-height:811px){
+        #stopButton {
+            top: 8px;
+            margin: 0 0 0 280px;
+            position: absolute;
+            border: none;
+            cursor: pointer;
+            background: none; /* 배경 이미지를 제거 */
+            padding: 0; /* 추가된 여백을 제거 */
+        }
+    }
+}
+
+@media (min-height: 812px) {
+    #stopButton {
+        bottom: 50%;        
+        margin: 0 0 298px 280px;
+
+        position: absolute;
+        border: none;
+        cursor: pointer;
+        background: none; /* 배경 이미지를 제거 */
+        padding: 0; /* 추가된 여백을 제거 */
+    }
+}

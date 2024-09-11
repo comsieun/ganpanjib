@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간판집 소개 게시판</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        #member-box{
+            width: 345px;
+            position: absolute;
+            z-index: 2;
+        }
+        #windowBackground{
+            position: absolute;
+            z-index: 1;
+        }
+        #back{
+            display: none;
+            width: 70px;
+            top: 40px;
+            left: 20px;
+            position: absolute;
+            z-index: 2;
+        }
+        .column{
+            margin-left: 3px;
+            display: flex;
+        }
+        .member{
+            width: 170px;
+            z-index: 2;
+        }
+        #member-window{
+            display: none;
+            position: absolute;
+            top:15%;
+            z-index: 3;
+        }
+        #member-text{
+            width: 350px;
+            display: none;
+            position: absolute;
+            z-index: 3;
+            bottom:10%;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="background-box" class="box">
+        <img src="imgMain/back.png" id="back" onclick="revert()">
+        <img src="imgMain/W1.png" id="member-window">
+        <img src="imgMain/text/T1.png" id="member-text">
+        <div id="member-box">
+            <div class="column">
+                <img class="member" src="imgMain/W1.png" onclick="showIntro('m1')">
+                <img class="member" src="imgMain/W2.png" onclick="showIntro('m2')">
+            </div>
+            <div class="column">
+                <img class="member" src="imgMain/W3.png" onclick="showIntro('m3')">
+                <img class="member" src="imgMain/W4.png" onclick="showIntro('m4')">
+            </div>
+            <div class="column">
+                <img class="member" src="imgMain/W5.png" onclick="showIntro('m5')">
+                <img class="member" src="imgMain/W6.png" onclick="showIntro('m6')">
+            </div>
+        </div>
+        <img src="imgMain/window.png" id="windowBackground">
+        <img src="imgMain/intro_br1.png" id="background">
+    </div>
+</body>
+<script>
+    const windowBackground = document.getElementById('windowBackground');
+    const background = document.getElementById('background');
+    const memberBox = document.getElementById('member-box');
+    const memberWindow = document.getElementById('member-window');
+    const memberText = document.getElementById('member-text');
+    const back = document.getElementById('back');
+
+    const members = {
+        m1: new Image(),
+        m2: new Image(),
+        m3: new Image(),
+        m4: new Image(),
+        m5: new Image(),
+        m6: new Image()
+    }
+    members.m1.src="imgMain/W1.png"
+    members.m2.src="imgMain/W2.png"
+    members.m3.src="imgMain/W3.png"
+    members.m4.src="imgMain/W4.png"
+    members.m5.src="imgMain/W5.png"
+    members.m6.src="imgMain/W6.png"
+    const text = {
+        m1: new Image(),
+        m2: new Image(),
+        m3: new Image(),
+        m4: new Image(),
+        m5: new Image(),
+        m6: new Image()
+    }
+    text.m1.src="imgMain/text/T1.png"
+    text.m2.src="imgMain/text/T2.png"
+    text.m3.src="imgMain/text/T3.png"
+    text.m4.src="imgMain/text/T4.png"
+    text.m5.src="imgMain/text/T5.png"
+    text.m6.src="imgMain/text/T6.png"
+
+    function showIntro(member){
+        memberWindow.src = members[member].src
+        memberText.src = text[member].src
+        background.src = "imgMain/intro_br2.png"
+
+        windowBackground.style.display="none"
+        memberBox.style.display="none"
+
+        back.style.display="block"
+        memberWindow.style.display="block"
+        memberText.style.display="block"
+    }
+    function revert(){
+        background.src = "imgMain/intro_br1.png"
+
+        windowBackground.style.display="block"
+        memberBox.style.display="block"
+        
+        back.style.display="none"
+        memberWindow.style.display="none"
+        memberText.style.display="none"
+    }
+</script>
+</html>

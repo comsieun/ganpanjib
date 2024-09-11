@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간판집 소개</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        #monitor{
+            display: none;
+            width: 300px;
+            height: 200px;
+            background-color: rgba(0, 255, 255, 0);
+            position: absolute;
+            top:230px;
+            left:40px;
+        }
+        #text-box{
+            display: block;
+            position: absolute;
+
+            bottom:0px;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <div id="background-box">
+        <img src="imgMain/text/main_text1.png" id="text-box">
+        <div id="monitor" onclick="window.location.href='members.html'"> </div>
+        <img src="imgMain/intro_textbox.png" id="background">
+    </div>
+</body>
+<script>
+    const background = document.getElementById('background');
+    const monitor = document.getElementById('monitor');
+    const textBox = document.getElementById('text-box');
+
+    let count = 1
+    const text = {
+        text1: new Image(),
+        text2: new Image(),
+        text3: new Image(),
+        text4: new Image()
+    }
+    text.text1.src = "imgMain/text/main_text1.png"
+    text.text2.src = "imgMain/text/main_text2.png"
+    text.text3.src = "imgMain/text/main_text3.png"
+    text.text4.src = "imgMain/text/main_text4.png"
+    
+    textBox.addEventListener('click', () => {
+        count++
+        if(count >= 5){
+            background.src = "imgMain/intro_main.png"
+            textBox.style.display = "none"
+            monitor.style.display = "block"
+        }
+        textBox.src = text[`text${count}`].src
+    })
+
+    // 텍스트 박스 끝
+    if(count >= 5){
+        background.src = "imgMain/intro_main.png"
+        monitor.style.display = "block"
+    }
+</script>
+</html>

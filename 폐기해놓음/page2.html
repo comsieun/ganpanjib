@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .background-container {
+            position: relative;
+            width: 100%;
+            max-width: 375px;
+            height: 100%;
+            max-height: 812px;
+            background: url('imgMain/in.png') no-repeat center center;
+            background-size: cover;
+        }
+
+        @media screen and (min-width: 376px) {
+            .background-container {
+                width: 375px;
+                height: 812px;
+            }
+        }
+
+        .button {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .button img {
+            display: block;
+            height: 180px;
+            width: auto;
+        }
+
+        @keyframes bobbing1 {
+            0%, 100% {
+                transform: rotate(-2deg);
+            }
+            50% {
+                transform: rotate(2deg);
+            }
+        }
+
+        .button1 {
+            top: 40%;
+            left: 22%;
+            transform: translate(-50%, -50%) rotate(-3deg);
+            animation: bobbing1 2s infinite ease-in-out;
+        }
+
+        .frame {
+            display: none;
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 900px;
+            padding: 220px 120px 100px 130px;
+            background: url('imgMain/framebox.png') no-repeat center center;
+            background-size: contain;
+            text-align: center;
+            color: rgb(29, 0, 37);
+            z-index: 11;
+        }
+
+        .frame p {
+            margin: 0;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .play-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+        }
+
+        .play-button img {
+            height: 40px;
+            width: auto;
+        }
+
+        .overlay-image {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 150%;
+            max-height: 100%;
+        }
+
+        .image-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none; /* 처음에는 보이지 않도록 설정 */
+        }
+
+        .image-container img {
+            display: none;
+            max-width: 100%;
+            max-height: 100%;
+            cursor: pointer; /* 클릭 가능하도록 커서 설정 */
+        }
+
+        .nav-button {
+            position: absolute;
+            cursor: pointer;
+            display: none; /* 처음에는 보이지 않도록 설정 */
+        }
+
+        .nav-button img {
+            width: 40px;
+            height: auto;
+        }
+
+        .up-button {
+            top: 20%;
+            left: 40%;
+            transform: translateX(-50%);
+            transform: translateX(50%) rotate(-90deg);
+        }
+
+        .down-button {
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%) rotate(90deg);
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+
+        .back-button {
+            top: 11%;
+            left: 2%;
+        }
+        .back-button img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* New Framebox CSS */
+        .framebox {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            padding: 170px 70px 40px 70px;
+            background: url('imgMain/framebox.png') no-repeat center center;
+            background-size: contain;
+            text-align: center;
+            color: rgb(29, 0, 37);
+            z-index: 11;
+        }
+
+        .framebox .content {
+            margin-top: 20px; /* 텍스트 전체를 아래로 이동 */
+            overflow-y: auto; /* 내용이 많으면 스크롤바 표시 */
+        }
+
+        .framebox p {
+            margin: 10px 0; /* 문단 간격 추가 */
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* Overlay CSS */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10; /* Ensure the overlay is behind the framebox */
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <div class="background-container" id="backgroundContainer">
+        <div class="frame-container">
+            <div class="button button1" id="boxButton" onclick="showFrame()">
+                <img src="imgMain/box.png" alt="s1">
+            </div>
+        </div>
+        <div class="frame" id="textFrame">
+            <p>머피스 컴퍼니에서 개발한 </p><p>사소한 불행 아이템들이 들어있어!</p>
+            <div class="play-button" onclick="showOverlayImage()">
+                <img src="imgMain/play.png" alt="Play Button">
+            </div>
+        </div>
+        <img src="imgMain/boxin.png" alt="Overlay Image" id="overlayImage" class="overlay-image">
+        <div class="image-container" id="imageContainer">
+            <img src="imgMain/image1.png" alt="Image 1" class="slide-image" id="image1" onclick="showFramebox('<p>〖잘못된 인사 안경〗</p><p>건너편에 있는 사람을</p><p>아는 사람으로 착각해</p><p>인사를 건네게 만드는 안경</p>')">
+            <img src="imgMain/image2.png" alt="Image 2" class="slide-image" id="image2" onclick="showFramebox('<p>〖장난꾸러기 식물〗</p><p>주인이 특별히 낙관적이거나</p><p>만족감을 느낄 때마다 </p><p>시들거나 시드는 것처럼 보이는 화분</p>')">
+            <img src="imgMain/image3.png" alt="Image 3" class="slide-image" id="image3" onclick="showFramebox('<p>〖징크스 알람시계〗</p><p>가끔씩 스스로 재설정되어 당신이</p><p>늦잠을 자거나, 예측할 수 없는 시간에 </p><p>잠에서 깨게 만드는 알람 시계</p>')">
+            <img src="imgMain/image4.png" alt="Image 4" class="slide-image" id="image4" onclick="showFramebox('<p>〖찰나의 순간 카메라〗</p><p>사용자가 눈을 감는 순간만</p><p>기막히게 포착해서</p><p>사진을 찍어주는 카메라</p>')">
+            <img src="imgMain/image5.png" alt="Image 5" class="slide-image" id="image5" onclick="showFramebox('<p>〖출처 미상 마스크〗</p><p>마스크 내부에 미묘한 냄새를 풍겨,</p><p>그 냄새의 원인이 자신인지</p><p>외부인지 헷갈리게 만드는 마스크</p>')">
+            <img src="imgMain/image6.png" alt="Image 6" class="slide-image" id="image6" onclick="showFramebox('<p>〖피라냐 지퍼〗</p><p>중간에 찝혀서 올라가지 않는 지퍼</p><p>분노할 때 쯤 원상복구 된다</p>')">
+            <img src="imgMain/image7.png" alt="Image 7" class="slide-image" id="image7" onclick="showFramebox('<p>〖간헐적 Wifi 공유기〗</p><p>간헐적으로 연결이 끊기거나</p><p>속도가 느려져, 중요한 온라인 작업 중에</p><p> 좌절감을 주는 Wifi 공유기</p>')">
+            <img src="imgMain/image8.png" alt="Image 8" class="slide-image" id="image8" onclick="showFramebox('<p>〖기포 생성형 휴대폰 필름〗</p><p>아무리 다시 붙여도</p><p>어느새 다시 기포가 생겨있는</p><p>휴대폰 필름</p>')">
+            <img src="imgMain/image10.png" alt="Image 10" class="slide-image" id="image10" onclick="showFramebox('<p>〖미묘한 잡음 의자〗</p><p>사용자가 앉을 때마다</p><p>방귀와 흡사한</p><p>미묘한 소리를 만들어내는 의자</p>')">
+            <img src="imgMain/image11.png" alt="Image 11" class="slide-image" id="image11" onclick="showFramebox('<p>〖불면 유발 모기장〗</p><p사용자가 자려고 불을 끄고 누우면</p><p>모기소리를 내어 불안함에</p><p>휩싸이게 만드는 모기장</p>')">
+            <img src="imgMain/image12.png" alt="Image 12" class="slide-image" id="image12" onclick="showFramebox('<p>〖비밀이 없는 무선 이어폰〗</p><p>사가끔 블루투스 페어링이 끊겨서</p><p>듣던 노래가 모두에게</p><p>노출되어버리는 무선 이어폰</p>')">
+            <img src="imgMain/image13.png" alt="Image 13" class="slide-image" id="image13" onclick="showFramebox('<p>〖심연의 주머니 가방〗</p><p>필요한 물건을 찾을 때마다</p><p>가방 깊숙한 곳에 숨어있다가,</p><p>존재를 잊을 때 쯤 다시 나타나게 하는 가방</p>')">
+            <img src="imgMain/image14.png" alt="Image 14" class="slide-image" id="image14" onclick="showFramebox('<p>〖양말 도둑 세탁기〗</p><p>세탁기에 넣은 양말이</p><p>간헐적으로 한 짝씩 사라지는</p><p>도둑 세탁기</p>')">
+            <img src="imgMain/image15.png" alt="Image 15" class="slide-image" id="image15" onclick="showFramebox('<p>〖따끔따끔 손톱깎이〗</p><p>거스르미를 완벽히 깎이지 않을 만큼</p><p>남겨두어 옷과 천에 걸릴 때</p><p>고통을 주는 손톱깎이</p>')">
+            <img src="imgMain/image16.png" alt="Image 16" class="slide-image" id="image16" onclick="showFramebox('<p>〖잘못된 기대 과자〗</p><p>어느 방향으로</p><p>뜯어도 뜯어지지 않는</p><p>과자 포장지</p>')">
+        </div>
+        <div class="nav-button up-button" onclick="showPreviousImage()">
+            <img src="imgMain/up.png" alt="Up Button">
+        </div>
+        <div class="nav-button down-button" onclick="showNextImage()">
+            <img src="imgMain/down.png" alt="Down Button">
+        </div>
+        <div class="back-button" id="pageBackButton" onclick="goToIndex()">
+            <img src="imgMain/back.png" alt="Back Button">
+        </div>
+        <div class="back-button" id="frameBackButton" onclick="goBack()" style="display: none;">
+            <img src="imgMain/back.png" alt="Back Button">
+        </div>
+
+        <!-- New Framebox Element -->
+        <div class="framebox" id="framebox" onclick="closeFramebox()">
+            <div class="content" id="frameboxText"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentImageIndex = 0;
+        const images = document.querySelectorAll('.slide-image');
+
+        function showFrame() {
+            document.getElementById('textFrame').style.display = 'block';
+            document.getElementById('boxButton').style.display = 'none';
+            document.getElementById('frameBackButton').style.display = 'block';
+        }
+
+        function showOverlayImage() {
+            document.getElementById('textFrame').style.display = 'none';
+            document.getElementById('overlayImage').style.display = 'block';
+            document.querySelector('.nav-button.up-button').style.display = 'block';
+            document.querySelector('.nav-button.down-button').style.display = 'block';
+            document.getElementById('imageContainer').style.display = 'flex';
+            showImage(0);
+        }
+
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.style.display = i === index ? 'block' : 'none';
+            });
+        }
+
+        function showPreviousImage() {
+            currentImageIndex = (currentImageIndex === 0) ? images.length - 1 : currentImageIndex - 1;
+            showImage(currentImageIndex);
+        }
+
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex === images.length - 1) ? 0 : currentImageIndex + 1;
+            showImage(currentImageIndex);
+        }
+
+        function goBack() {
+            document.getElementById('overlayImage').style.display = 'none';
+            document.getElementById('textFrame').style.display = 'none';
+            document.getElementById('boxButton').style.display = 'block';
+            document.getElementById('imageContainer').style.display = 'none';
+            document.querySelector('.nav-button.up-button').style.display = 'none';
+            document.querySelector('.nav-button.down-button').style.display = 'none';
+            document.getElementById('frameBackButton').style.display = 'none';
+            document.getElementById('framebox').style.display = 'none'; // Hide framebox
+            hideOverlay(); // Hide overlay
+        }
+
+        function goToIndex() {
+            window.location.href = 'index.html';
+        }
+
+        function showFramebox(description) {
+            const framebox = document.getElementById('framebox');
+            const frameboxText = document.getElementById('frameboxText');
+            frameboxText.innerHTML = description;
+            framebox.style.display = 'block';
+            showOverlay(); // Show overlay
+        }
+
+        function closeFramebox() {
+            document.getElementById('framebox').style.display = 'none';
+            hideOverlay(); // Hide overlay
+        }
+
+        function showOverlay() {
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function hideOverlay() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

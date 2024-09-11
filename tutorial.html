@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Document</title>
+    <style>
+        @import url('https://fastly.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
+
+        @font-face {
+            font-family: Galmuri14;
+            font-style: normal;
+            font-stretch: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Galmuri14 Regular'),
+                url('./Galmuri14.woff2') format('woff2'),
+                url('./Galmuri14.ttf') format('truetype');
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* 스크롤 방지 */
+            font-family: 'Galmuri14';
+        }
+
+        .background-container {
+            position: relative;
+            width: 100%;
+            max-width: 375px; /* 모바일 기준 너비 */
+            height: 100%;
+            max-height: 812px; /* 모바일 기준 높이 */
+            background: url('imgMain/in.png') no-repeat center center;
+            background-size: cover; /* 배경 이미지가 박스에 꽉 차도록 설정 */
+        }
+
+        .frame-container {
+            position: absolute;
+            bottom: 0; /* 바닥에 붙여서 시작 */
+            width: 100%;
+            height: 30%; /* 필요에 따라 높이 조정 */
+            background-size: contain; /* 프레임 이미지가 박스에 꽉 차도록 설정 */
+            background-repeat: no-repeat; /* 이미지 반복 방지 */
+            background-position: center; /* 이미지를 중앙에 위치 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 100px; /* 바닥에서 살짝 떨어지게 하기 */
+            box-sizing: border-box; /* margin을 포함한 사이즈 조정 */
+            flex-direction: column; /* 자식 요소들을 수직으로 정렬 */
+            cursor: pointer; /* 마우스 포인터를 손가락 모양으로 변경 */
+        }
+
+        .character-container {
+            position: absolute;
+            top: -148px; /* 텍스트 박스 상단에 맞춰서 위치 */
+            left: 145px;
+            width: 230px; /* 캐릭터 이미지의 너비 */
+            height: 230px; /* 캐릭터 이미지의 높이 */
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .text-box {
+            text-align: left;
+            padding: 0px;
+            width: 240px;
+            height: 150px;
+
+            margin-top: 35px;
+            margin-left: 5px;
+            display: flex;
+            align-items: center;
+        }
+        #text-box{
+            text-align: left;
+            padding: 0px;
+        }
+
+        .skip-button {
+            position: absolute;
+            top: 20px; /* 상단에서 20px 위치 */
+            right: 20px; /* 우측에서 20px 위치 */
+            width: 70px; /* 버튼의 너비 */
+            height: 50px; /* 버튼의 높이 */
+            background: url('imgMain/skip.png') no-repeat center center;
+            background-size: cover;
+            cursor: pointer;
+        }
+
+        /* 웹 환경에서 중앙에 위치하도록 조정 */
+        @media screen and (min-width: 376px) {
+            .background-container {
+                width: 375px; /* 고정된 박스 너비 */
+                height: 812px; /* 고정된 박스 높이 */
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <div class="skip-button" onclick="window.location.href='explain.html'"></div>
+        <div class="frame-container" id="frame-container" onclick="nextText()">
+            <div class="character-container" id="character"></div>
+            <div class="text-box">
+                <div id="text-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 사용자 정의 텍스트와 이미지를 설정하는 배열
+        let scenarios = [
+            {
+                text: `<p style="color: #8A0868;  font-size: 13px;">정신을 차려보니 수상한 건물 앞에 도착했다.</p>`,
+                image: "none",
+                frame: "imgMain/Fempty.png"
+            },
+            {
+                text: `<p style="color: #00ff00;  font-size: 13px;">*얼굴에 붙은 전단지를 떼고, 이내 경악한 표정*</p>
+                       <p style="color: #000000;  font-size: 14px;">머피스 컴퍼니? 전단지에 써있는 곳이잖아!</p>`,
+                image: "imgMain/Fmainc.png",
+                frame: "imgMain/Fme.png"
+            },
+            {
+                text: `<p style="color: #8A0868; font-size: 13px;">유독 불행한 당신이지만,</p>
+                        <p style="color: #8A0868;  font-size: 13px;">평소와 다르게</p>
+                        <p style="color: #8A0868;  font-size: 13px;">보통 우연이 아닌 것 같은 예감이 든다.</p>`,
+                image: "none",
+                frame: "imgMain/Fempty.png"
+            },
+            {
+                text: `<p style="color: #00ff00;  font-size: 13px;">*쭈뼛대며 사무실 문을 기웃거린다.*</p>
+                       <p style="color: #000000;  font-size: 14px;">계세요…?</p>`,
+               image: "imgMain/Fmainc.png",
+                frame: "imgMain/Fme.png"
+            },
+            {
+                text: `<p style="color: #8A0868;  font-size: 13px;">사무실 안에 들어서자</p>
+                        <p style="color: #8A0868; font-size: 13px;">왜인지 모를 쿰쿰한 냄새와 함께,</p>
+                        <p style="color: #8A0868;  font-size: 13px;">일제히 사람들의 시선이 쏠린다.</p>`,
+               
+                frame: "imgMain/Fempty.png"
+            },
+            {
+                text: `<p style="color: #8A0868; font-size: 13px;">‘사람’…?</p>`,
+                 frame: "imgMain/Fempty.png"
+            },
+            {
+                text: `<p style="color: #8A0868;  font-size: 13px;">......</p>`,
+                 frame: "imgMain/Fempty.png"
+            },
+            {
+                text: `<p style="color: #8A0868;  font-size: 13px;">여기 있는 모두를 사람이라고 해도 되는 걸까?</p>`,
+                frame: "imgMain/Fempty.png"
+            },
+            {
+                text: `<p style="color: #00ff00; font-size: 13px;">*퉁명스러운 표정으로*</p>
+                       <p style="color: #000000; font-size: 14px;">(뭐야 이 바보는?) 여긴 어떻게 왔지?</p>`,
+                frame: "imgMain/Fquestion.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #00ff00;  font-size: 13px;">*상어팀장을 보고 소스라치게 놀란다.*</p>
+                       <p style="color: #000000;  font-size: 14px;">!!!!!!!!!</p>`,
+               image: "imgMain/Fmainc.png",
+                frame: "imgMain/Fme.png"
+            },
+            {
+                text: `<p style="color: #00ff00; font-size: 13px;">*흥미가 생긴 표정으로*</p>
+                       <p style="color: #000000; font-size: 14px;">아하…! 보아하니 전단지에 휩쓸려서</p>
+                       <p style="color: #000000; font-size: 14px;">우리 회사까지 오게 됐나 보군.</p>`
+                       ,
+                frame: "imgMain/Fquestion.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+
+            {
+                text: `<p style="color: #000000; font-size: 14px;">이런 바보 같은 전단지가</p>
+                       <p style="color: #000000; font-size: 14px;">진짜로 누군가를 낚아온 건 처음인데.</p>`
+                       ,
+                frame: "imgMain/Fquestion.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #00ff00; font-size: 13px;">*흥분한 표정으로*</p>
+                       <p style="color: #000000; font-size: 14px;">너 보통이 아니구나?!</p>`,
+                frame: "imgMain/Fquestion.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #00ff00;  font-size: 13px;">*약간 움츠러들며*</p>
+                       <p style="color: #000000;  font-size: 14px;">으… 여긴 도대체 뭘 하는 곳인가요?</p>`,
+               image: "imgMain/Fmainc.png",
+                frame: "imgMain/Fme.png"
+            },
+            {
+                text: `<p style="color: #000000; font-size: 14px;">여긴 머피스 컴퍼니야.</p>
+            
+                       <p style="color: #000000; font-size: 14px;">원래 너 같은 인간은 쉽게 찾을 수 없는 곳인데.</p>`
+                       ,
+                frame: "imgMain/Fquestion.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #00ff00; font-size: 13px;">*의미심장하게 웃는다.*</p>
+                       <p style="color: #000000; font-size: 14px;">넌 타고난 것 같으니 특별히 알려줄게.</p>`,
+                frame: "imgMain/Fquestion.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #8A0868; font-size: 13px;">뭘 타고났다는 건지 의아하지만,</p>
+                <p style="color: #8A0868; font-size: 13px;">아니…</p>
+                <p style="color: #8A0868; font-size: 13px;">사실 조금은 알 것 같지만…</p>`,
+                 frame: "imgMain/Fempty.png"
+            },
+            {
+                text: `<p style="color: #000000; font-size: 14px;">우린 인간 세상의 행복도 조절을 위해 세워진</p>
+                    <p style="color: #000000; font-size: 14px;">‘사소한 불행’ 전문 회사다.</p>`,
+                frame: "imgMain/Fquestion.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #000000; font-size: 14px;">인간들의 삶에 아~주 약간의 거슬림과</p>
+                    <p style="color: #000000; font-size: 14px;">좌절을 안겨주기 위한</p>
+                     <p style="color: #000000; font-size: 14px;">제품과 서비스를 제조하고 유통하지.</p>`,
+                frame: "imgMain/Fquestion.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #000000; font-size: 14px;">난 이곳의 팀장이야.</p>
+                    <p style="color: #000000; font-size: 14px;">상어 팀장이라고 불러!</p>`,
+                frame: "imgMain/Fshark.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `
+                       <p style="color: #000000;  font-size: 14px;">사소한 불행을 전문으로 한다고요?</p>
+                       <p style="color: #000000;  font-size: 14px;">무슨 의미죠?</p>`,
+               image: "imgMain/Fmainc.png",
+                frame: "imgMain/Fme.png"
+            },
+            {
+                text: `<p style="color: #000000; font-size: 14px;">그래. 불행!</p>
+                    <p style="color: #000000; font-size: 14px;">네가 오늘 겪은 그런 재수 없는 일들 말이야.</p>`,
+                frame: "imgMain/Fshark.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #000000; font-size: 14px;">흠. 너는 우리 회사 제품이</p>
+                    <p style="color: #000000; font-size: 14px;">낯설지 않을 것 같은데?</p>`,
+                frame: "imgMain/Fshark.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #00ff00; font-size: 13px;">*전단지 한 장을 툭 떼주며*</p>
+                       <p style="color: #000000; font-size: 14px;">가령 네가 덕지덕지 붙여온 이 전단지도</p>
+                       <p style="color: #000000; font-size: 14px;">신입을 뽑기 위해 만든 홍보물이거든.</p>`,
+                frame: "imgMain/Fshark.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #00ff00; font-size: 13px;">*작은 목소리로*</p>
+                       <p style="color: #000000; font-size: 14px;">요새는 다들 불행이라면 꺼려서 말이야…</p>
+                       <p style="color: #000000; font-size: 14px;">이런 방법이라도 쓸 수 밖엔…</p>`,
+                frame: "imgMain/Fshark.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `
+                       <p style="color: #000000;  font-size: 14px;">네? 뭐라고 하셨는지 못 들었어요…</p>
+                       <p style="color: #000000;  font-size: 14px;">(그나저나 채용 방식이 참 독특하네…)</p>
+                       `,
+               image: "imgMain/Fmainc.png",
+                frame: "imgMain/Fme.png"
+            },
+            {
+                text: `<p style="color: #00ff00; font-size: 13px;">*호쾌하게 웃으며*</p>
+                       <p style="color: #000000; font-size: 14px;">으핫!!!!! 신경 쓰지 마.</p>`,
+                frame: "imgMain/Fshark.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #000000; font-size: 14px;">그나저나 넌 불행에 대해선 더 배울 것도 없겠군.</p>
+                    <p style="color: #000000; font-size: 14px;">완벽해! 우리랑 같이 일해보는 게 어때?</p>`,
+                frame: "imgMain/Fshark.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #00ff00;  font-size: 13px;">*소스라치게 놀라며*</p>
+                       <p style="color: #000000;  font-size: 14px;">정말요?!!! 이렇게 간단하게요?!!</p>`,
+               image: "imgMain/Fmainc.png",
+                frame: "imgMain/Fme.png"
+            },
+            {
+                text: `<p style="color: #00ff00;  font-size: 13px;">*거의 울 듯하다*</p>
+                       <p style="color: #000000;  font-size: 14px;">마침 일자리를 애타게 찾고 있었거든요…</p>`,
+               image: "imgMain/Fmainc.png",
+                frame: "imgMain/Fme.png"
+            },
+            {
+                text: `<p style="color: #00ff00; font-size: 13px;">*의미심장하게 웃으며*</p>
+                       <p style="color: #000000; font-size: 14px;">당연하지~ (순진하긴…)</p>`,
+                frame: "imgMain/Fshark.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `<p style="color: #00ff00; font-size: 13px;">*플레이어의 어깨를 잡고 사무실 안쪽으로 이끈다.*</p>
+                       <p style="color: #000000; font-size: 14px;">자자! 이리와. 자리를 안내해줄게.</p>
+                       `,
+                frame: "imgMain/Fshark.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `
+                       <p style="color: #000000; font-size: 14px;">밀린 일이 한두 가지가 아냐!!</p>
+                       <p style="color: #000000; font-size: 14px;">일단 배달부터 가자고!!!</p>`,
+                frame: "imgMain/Fshark.png",
+                position: "right",
+                image: "imgMain/Fmains.png",
+            },
+            {
+                text: `
+                       <p style="color: #000000;  font-size: 14px;">네…</p>`,
+               image: "imgMain/Fmainc.png",
+                frame: "imgMain/Fme.png"
+            },
+            {
+                text: `
+                       <p style="color: #000000;  font-size: 14px;">네에에에에에엣?!!!!!!!!</p>`,
+               image: "imgMain/Fmainc.png",
+                frame: "imgMain/Fme.png"
+            },
+            {
+                text: `<p style="color: #8A0868;  font-size: 13px;">당신의 불행이 드디어 쓸모를 찾았다!</p>
+                <p style="color: #8A0868;  font-size: 13px;">당신의 불행이 좋은 기회를 불러들이는 건 처음이다.</p>`,
+                image: "none",
+                frame: "imgMain/Fempty.png"
+            },
+            {
+                text: `<p style="color: #8A0868;  font-size: 13px;">축하합니다!</p>
+                <p style="color: #8A0868;  font-size: 13px;">당신은 머피스 컴퍼니의 새로운 멤버가 되었습니다.</p>`,
+                image: "none",
+                frame: "imgMain/Fempty.png"
+            },
+            {
+                text: `<p style="color: #8A0868;  font-size: 13px;">당신의 불행을 받아들이고</p>
+                <p style="color: #8A0868;  font-size: 13px;">그것을 성공으로 바꿀 준비를 하세요!</p>`,
+                image: "none",
+                frame: "imgMain/Fempty.png"
+            },
+            {
+                text: `<p style="color: #8A0868;  font-size: 13px;">......</p>`,
+                image: "none",
+                frame: "imgMain/Fempty.png"
+            },
+            {
+                text: `<p style="color: #8A0868;  font-size: 13px;">그런데 좋은 기회, 맞겠지?</p>`,
+                image: "none",
+                frame: "imgMain/Fempty.png"
+            }
+
+
+
+        ];
+
+        let currentIndex = 0;
+
+        // 초기화 함수
+        function init() {
+            updateScenario();
+        }
+
+        function nextText() {
+            currentIndex++;
+            if (currentIndex >= scenarios.length) {
+                window.location.href = 'explain.html';
+                return;
+            }
+            updateScenario();
+        }
+
+        function updateScenario() {
+            let textBox = document.getElementById('text-box');
+            let character = document.getElementById('character');
+            let frameContainer = document.getElementById('frame-container');
+            let currentScenario = scenarios[currentIndex];
+
+            textBox.innerHTML = currentScenario.text;
+            character.style.backgroundImage = currentScenario.image === "none" ? "none" : `url('${currentScenario.image}')`;
+            frameContainer.style.backgroundImage = `url('${currentScenario.frame}')`; // 시나리오별 프레임 이미지 설정
+
+            if (currentScenario.position === "left") {
+                character.style.left = "0%";
+                character.style.right = "";
+            } else {
+                character.style.right = "0%";
+                character.style.left = "";
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
