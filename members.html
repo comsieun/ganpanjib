@@ -7,18 +7,18 @@
     <link rel="stylesheet" href="style.css" />
     <style>
         #member-box{
-            width: 345px;
+            width: 320px;
             position: absolute;
             z-index: 2;
         }
         #windowBackground{
+            width: 350px;
             position: absolute;
             z-index: 1;
         }
         #back{
-            display: none;
             width: 70px;
-            top: 40px;
+            top: 10px;
             left: 20px;
             position: absolute;
             z-index: 2;
@@ -28,7 +28,8 @@
             display: flex;
         }
         .member{
-            width: 170px;
+            margin: 5px;
+            width: 150px;
             z-index: 2;
         }
         #member-window{
@@ -76,7 +77,6 @@
     const memberBox = document.getElementById('member-box');
     const memberWindow = document.getElementById('member-window');
     const memberText = document.getElementById('member-text');
-    const back = document.getElementById('back');
 
     const members = {
         m1: new Image(),
@@ -115,7 +115,6 @@
         windowBackground.style.display="none"
         memberBox.style.display="none"
 
-        back.style.display="block"
         memberWindow.style.display="block"
         memberText.style.display="block"
     }
@@ -125,7 +124,6 @@
         windowBackground.style.display="block"
         memberBox.style.display="block"
         
-        back.style.display="none"
         memberWindow.style.display="none"
         memberText.style.display="none"
     }
