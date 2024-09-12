@@ -1480,6 +1480,8 @@ function gameLoop() {
     if (gameOver) {
         gameoverMsg.style.display = 'block';
         player.type = 'retire';
+        backgroundMusic.volume = 0.5;
+        backgroundMusic.play()
         retiredMusic.play()
         retired();
         return;
