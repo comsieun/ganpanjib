@@ -953,13 +953,17 @@ heart.src = 'img/heart.png';
 emptyHeart.src = 'img/heartEmpty.png';
 misfortuneBackground.src = 'img/misfortuneBackground.png';
 
-const backgroundMusic = new Audio('sound/background-music.wav');
+const backgroundMusic = new Audio('sound/background-music.mp3');
+const feverTimeMusic = new Audio('sound/feverTime.mp3');
 backgroundMusic.loop = true;
+feverTimeMusic.loop = true;
 
 const hurtMusic = new Audio('sound/hurt.wav');
 const addItemMusic = new Audio('sound/add_item.wav');
 const deliveryMusic = new Audio('sound/delivery.wav');
 const bumpMusic = new Audio('sound/bump.wav');
+const retiredMusic = new Audio('sound/death.aac');
+const misfortuneMusic = new Audio('sound/eatBread.aac');
 
 
 const heartWidth = 30
@@ -1161,7 +1165,6 @@ function checkCollision() {
 function handleCollision(obstacle) {
     if (!inFeverTime && !emergency) {
         if (obstacle.type == 'obstacle' && !invincibility){
-            hurtMusic.play()
             player.lives -= 1;
             
             player.type = 'hurt'
@@ -1181,8 +1184,12 @@ function handleCollision(obstacle) {
                 }
             }, playerFrameTime)
 
-            if (player.lives === 0) gameOver = true;
+            if (player.lives === 0) {
+                gameOver = true;
+            }else{
+                hurtMusic.play()
             }
+        }
         else if (obstacle.type ==  'energyDrink'){
             if (player.lives < 3) player.lives += 1;
             if (player.lives === 2) player.background = 'basic'
@@ -1195,6 +1202,7 @@ function handleCollision(obstacle) {
             }, playerFrameTime)
         }
         else if (obstacle.type == 'misfortune'){
+            misfortuneMusic.play()
             player.items += 1;
             if (player.items >= 10) startFeverTime();
         }
@@ -1267,6 +1275,8 @@ function startFeverTime() {
     inFeverTime = true;
     player.type = 'fever'
     player.background = 'fever'
+    feverTimeMusic.play()
+    backgroundMusic.pause()
 
     player.items = 0;
     feverMsg.style.display = 'block';
@@ -1277,6 +1287,9 @@ function startFeverTime() {
     feverTimeTimeout = setTimeout(() => {
         player.type = 'default'
         player.background = 'basic'
+
+        backgroundMusic.play()
+        feverTimeMusic.pause()
         
         feverMsg.style.display = 'none';
 
@@ -1457,6 +1470,7 @@ function gameLoop() {
     if (gameOver) {
         gameoverMsg.style.display = 'block';
         player.type = 'retire';
+        retiredMusic.play()
         retired();
         return;
     }
@@ -1487,7 +1501,11 @@ stopButton.addEventListener('click', () => {
     gamePaused = !gamePaused;
     if (gamePaused) {
         stopButtonImage.src='img/play.png'
-        backgroundMusic.pause();
+        if(inFeverTime){
+            feverTimeMusic.pause()
+        }else{
+            backgroundMusic.pause();
+        }
         
         // 피버 타임 타이머 멈추기
         if (inFeverTime) {
@@ -1497,7 +1515,12 @@ stopButton.addEventListener('click', () => {
     } else {
         // 피버 타임 타이머 재개 
         stopButtonImage.src='img/stop.png'
-        backgroundMusic.play();
+
+        if(inFeverTime){
+            feverTimeMusic.play()
+        }else{
+            backgroundMusic.play();
+        }
 
         if (inFeverTime) {
             feverTimeStartTime = Date.now();
@@ -1506,6 +1529,9 @@ stopButton.addEventListener('click', () => {
 
                 player.type = 'default'
                 player.background = 'basic'
+
+                backgroundMusic.play()
+                feverTimeMusic.pause()
                 
                 inFeverTime = false;
                 invincibility = true;
