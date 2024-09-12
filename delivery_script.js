@@ -964,6 +964,7 @@ const deliveryMusic = new Audio('sound/delivery.wav');
 const bumpMusic = new Audio('sound/bump.wav');
 const retiredMusic = new Audio('sound/death.aac');
 const misfortuneMusic = new Audio('sound/eatBread.aac');
+const countdownMusic = new Audio('sound/go.aac');
 
 
 const heartWidth = 30
@@ -1187,6 +1188,7 @@ function handleCollision(obstacle) {
             if (player.lives === 0) {
                 gameOver = true;
             }else{
+                hurtMusic.currentTime = 0; 
                 hurtMusic.play()
             }
         }
@@ -1195,6 +1197,7 @@ function handleCollision(obstacle) {
             if (player.lives === 2) player.background = 'basic'
 
             player.type = 'getItem'
+            addItemMusic.currentTime = 0; 
             addItemMusic.play()
             setTimeout(()=>{
                 if(player.lastType == 'getItem')
@@ -1202,11 +1205,13 @@ function handleCollision(obstacle) {
             }, playerFrameTime)
         }
         else if (obstacle.type == 'misfortune'){
+            misfortuneMusic.currentTime = 0; 
             misfortuneMusic.play()
             player.items += 1;
             if (player.items >= 10) startFeverTime();
         }
         else if (obstacle.type == 'house'){
+            deliveryMusic.currentTime = 0; 
             deliveryMusic.play()
 
             houseCount += 1;
@@ -1221,6 +1226,7 @@ function handleCollision(obstacle) {
         }
     }else if(inFeverTime) {
         if (obstacle.type === 'house') {
+            deliveryMusic.currentTime = 0; 
             deliveryMusic.play()
             houseCount += 1;
             player.score += 500;
@@ -1233,11 +1239,13 @@ function handleCollision(obstacle) {
             }, playerFrameTime)
 
         }else if (obstacle.type == 'obstacle'){ // (피버) 장애물 파괴시 50
+            bumpMusic.currentTime = 0; 
             bumpMusic.play()
             player.score += 50;
         }
     }else if(emergency){
         if (obstacle.type == 'correct'){
+            deliveryMusic.currentTime = 0; 
             deliveryMusic.play()
             houseCount += 1;
             player.score += 300;
@@ -1249,6 +1257,7 @@ function handleCollision(obstacle) {
             }, playerFrameTime)
 
         } else {
+            hurtMusic.currentTime = 0; 
             hurtMusic.play()
             player.lives -= 1;
             if (player.lives === 0) gameOver = true;
@@ -1275,6 +1284,7 @@ function startFeverTime() {
     inFeverTime = true;
     player.type = 'fever'
     player.background = 'fever'
+    feverTimeMusic.currentTime = 0; 
     feverTimeMusic.play()
     backgroundMusic.pause()
 
@@ -1749,6 +1759,8 @@ function loading(){
 function drawCountdown(image, callback) {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // 캔버스 초기화
     ctx.drawImage(image, canvas.width / 2 - image.width / 2, canvas.height / 2 - image.height / 2); // 중앙에 이미지 그리기
+    countdownMusic.currentTime = 0; 
+    countdownMusic.play()
     if (callback) {
         setTimeout(callback, 1000); // 1초 후에 다음 이미지 호출
     }

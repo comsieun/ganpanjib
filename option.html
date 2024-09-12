@@ -24,12 +24,24 @@
 <body>
     <div id="background-box">
         <div id="btn-box">
-            <img src="imgMain/tutorial.PNG" id="tutorial" class="floor" onclick="window.location.href='tutorial.html'">
-            <img src="imgMain/introduce.PNG" id="introduce" class="floor" onclick="window.location.href='introduce.html'">
+            <img src="imgMain/tutorial.PNG" id="tutorial" class="floor" onclick="nextPage('tutorial.html')">
+            <img src="imgMain/introduce.PNG" id="introduce" class="floor" onclick="nextPage('introduce.html')">
             <img src="imgMain/items.PNG" id="item" class="floor">
             <img src="imgMain/storage.PNG" id="storage" class="floor">
         </div>
         <img src="imgMain/main_background.png" id="background">
     </div>
 </body>
+<script>
+        var musicCurrentTime = localStorage.getItem("currentTime");
+        const backgroundMusic = new Audio('sound/background-Main.wav');
+        backgroundMusic.loop = true;
+        backgroundMusic.currentTime = musicCurrentTime;
+        backgroundMusic.play()
+
+        function nextPage(link){
+            localStorage.setItem('currentTime', backgroundMusic.currentTime);
+            window.location.href=link
+        }
+</script>
 </html>

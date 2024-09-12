@@ -72,11 +72,19 @@
     </div>
 </body>
 <script>
+    var musicCurrentTime = localStorage.getItem("currentTime");
+    const backgroundMusic = new Audio('sound/background-Main.wav');
+    backgroundMusic.loop = true;
+    backgroundMusic.currentTime = musicCurrentTime;
+    backgroundMusic.play()
+
     const windowBackground = document.getElementById('windowBackground');
     const background = document.getElementById('background');
     const memberBox = document.getElementById('member-box');
     const memberWindow = document.getElementById('member-window');
     const memberText = document.getElementById('member-text');
+
+    let pageCount = 1
 
     const members = {
         m1: new Image(),
@@ -107,7 +115,13 @@
     text.m5.src="imgMain/text/T5.png"
     text.m6.src="imgMain/text/T6.png"
 
+    function nextPage(){
+        localStorage.setItem('currentTime', backgroundMusic.currentTime);
+        window.location.href='introduce.html'
+    }
+
     function showIntro(member){
+        pageCount = 2
         memberWindow.src = members[member].src
         memberText.src = text[member].src
         background.src = "imgMain/intro_br2.png"
@@ -119,6 +133,9 @@
         memberText.style.display="block"
     }
     function revert(){
+        if (pageCount == 1) nextPage()
+
+        pageCount = 1
         background.src = "imgMain/intro_br1.png"
 
         windowBackground.style.display="block"

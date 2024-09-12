@@ -111,6 +111,13 @@
         </div>
     </div>
     <script>
+
+        var musicCurrentTime = localStorage.getItem("currentTime");
+        const backgroundMusic = new Audio('sound/background-Main.wav');
+        backgroundMusic.loop = true;
+        backgroundMusic.currentTime = musicCurrentTime;
+        backgroundMusic.play()
+
         const images = ["img/HowToPlay_01.png", "img/HowToPlay_02.png"];
         let currentIndex = 0;
 

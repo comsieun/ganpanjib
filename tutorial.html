@@ -114,6 +114,12 @@
     </div>
 
     <script>
+    var musicCurrentTime = localStorage.getItem("currentTime");
+    const backgroundMusic = new Audio('sound/background-Main.wav');
+    backgroundMusic.loop = true;
+    backgroundMusic.currentTime = musicCurrentTime;
+    backgroundMusic.play()
+
         // 사용자 정의 텍스트와 이미지를 설정하는 배열
         let scenarios = [
             {
@@ -396,6 +402,7 @@
         function nextText() {
             currentIndex++;
             if (currentIndex >= scenarios.length) {
+                localStorage.setItem('currentTime', backgroundMusic.currentTime);
                 window.location.href = 'explain.html';
                 return;
             }

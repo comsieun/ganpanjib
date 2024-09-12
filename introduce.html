@@ -27,11 +27,23 @@
 <body>
     <div id="background-box">
         <img src="imgMain/text/main_text1.png" id="text-box">
-        <div id="monitor" onclick="window.location.href='members.html'"> </div>
+        <div id="monitor" onclick="nextPage()"> </div>
         <img src="imgMain/intro_textbox.png" id="background">
     </div>
 </body>
 <script>
+
+    var musicCurrentTime = localStorage.getItem("currentTime");
+    const backgroundMusic = new Audio('sound/background-Main.wav');
+    backgroundMusic.loop = true;
+    backgroundMusic.currentTime = musicCurrentTime;
+    backgroundMusic.play()
+
+    function nextPage(){
+        localStorage.setItem('currentTime', backgroundMusic.currentTime);
+        window.location.href='members.html'
+    }
+
     const background = document.getElementById('background');
     const monitor = document.getElementById('monitor');
     const textBox = document.getElementById('text-box');

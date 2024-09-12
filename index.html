@@ -26,7 +26,18 @@
 <body>
     <div id="background-box">
         <img src="imgMain/main_cloud.png" id="cloud">
-        <img src="imgMain/main_background.png" id="background" onclick="window.location.href='option.html'">
+        <img src="imgMain/main_background.png" id="background" onclick="nextPage()">
     </div>
-    </body>
+</body>
+<script>
+const backgroundMusic = new Audio('sound/background-Main.wav');
+backgroundMusic.loop = true;
+backgroundMusic.play()
+
+function nextPage(){
+    localStorage.setItem('currentTime', backgroundMusic.currentTime);
+    window.location.href='option.html'
+}
+
+</script>    
 </html>
