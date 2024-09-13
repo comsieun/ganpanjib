@@ -27,7 +27,7 @@
 <body>
     <div id="background-box">
         <img src="imgMain/text/main_text1.png" id="text-box">
-        <div id="monitor" onclick="nextPage()"> </div>
+        <!-- <div id="monitor" onclick="nextPage()"> </div> -->
         <img src="imgMain/intro_textbox.png" id="background">
     </div>
 </body>
@@ -63,9 +63,10 @@
     textBox.addEventListener('click', () => {
         count++
         if(count >= 5){
-            background.src = "imgMain/intro_main.png"
-            textBox.style.display = "none"
-            monitor.style.display = "block"
+            nextPage()
+            // background.src = "imgMain/intro_main.png"
+            // textBox.style.display = "none"
+            // monitor.style.display = "block"
         }
         textBox.src = text[`text${count}`].src
     })
